@@ -15,7 +15,8 @@ mort <- 1/4
 params <- list(beta = R0*(gamma)
 	, alpha = alpha
 	, gamma = gamma
-	, delta = death
+	, delta = delta
+	, mort = mort
 	, pop = pop
 	, I0 = I0
 	, E0 = E0

@@ -9,24 +9,7 @@ n <- 1000
 
 spec <- rdsRead()
 
-print(pipeStar())
-
-ps <- unlist(strsplit(pipeStar(),split="[.]"))
-
-if(ps[[1]] == "large"){
-	I0 = 10
-	E0 = 10
-}
-
-if(ps[[1]] == "medium"){
-	I0 = 5
-	E0 = 5
-}
-
-
-newspecs <- mp_tmb_update(spec,default=list(
-	vaxprop=as.numeric(ps[[2]])/100
-	, I0 = I0
+newspecs <- mp_tmb_update(spec,default=list(I0 = I0
 	, E0 = E0
 	)
 )
@@ -35,7 +18,7 @@ print(newspecs)
 
 time_steps = 100 ## Days
 
-outputs <- c("I","infection")
+outputs <- c("I","infection","D")
 # simulator object
 sir = mp_simulator(
     model = newspecs
@@ -50,8 +33,6 @@ inc_sim <- function(x){
 	dd <- (mp_trajectory(sir)
 		%>% mutate(NULL
 			, seed = x
-			, vaxprop = ps[[2]]
-			, I0 = ps[[1]]
 		)
 	)
 }

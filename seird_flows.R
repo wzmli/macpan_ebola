@@ -5,7 +5,7 @@ flow_rates = list(
 	infection ~ reulermultinom(S,clamp(I * beta/N))
 	, progression ~ reulermultinom(E,clamp(alpha))
 	, recovery ~ reulermultinom(I, clamp((1-mort)*gamma))
-	, death ~ reulermultinom(I, clamp((mort*delta))
+	, death ~ reulermultinom(I, clamp((mort*delta)))
 )
 
 update_state = list(

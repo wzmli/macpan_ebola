@@ -24,7 +24,7 @@ seird_params.Rout: seird_params.R
 seird_flows.Rout: seird_flows.R seird_params.rda
 	$(pipeR)
 
-seird_spec.Rout: seird_spec.R seird_params.rds seird_flows.rda
+seird_spec.Rout: seird_spec.R seird_params.rda seird_flows.rda
 	$(pipeR)
 
 seird_sims.Rout: sims.R seird_spec.rds seird_params.rda
