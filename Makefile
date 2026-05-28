@@ -18,7 +18,7 @@ msrepo = https://github.com/dushoff
 
 ######################################################################
 
-lldirs += ebola_2026
+alldirs += ebola_2026
 ebola_2026/%: | ebola_2026 ;
 Ignore  += $(alldirs)
 
@@ -26,6 +26,9 @@ ebola_2026:
 	git clone https://github.com/wzmli/ebola_2026
 
 ######################################################################
+
+update:
+	cd ebola_2026 && $(MAKE) pull
 
 read.Rout: ebola_2026/read.R ebola_2026/who3.csv
 	$(pipeR)
@@ -45,8 +48,10 @@ seird_sims.Rout: sims.R seird_spec.rds seird_flows.rda
 seird_simplots.Rout: simplots.R seird_sims.rds clean.rds 
 	$(pipeR)
 
+## ebola1.jpg
 
-## ln -s ../makestuff . ## Do this first if you want a linked makestuff
+######################################################################
+
 Makefile: makestuff/00.stamp
 makestuff/%.stamp: | makestuff
 	- $(RM) makestuff/*.stamp

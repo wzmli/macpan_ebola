@@ -15,7 +15,7 @@ default = list(beta = 0.4
 	, gamma = 0.1
 	, delta = 0.1 ## death delay
 	, mort = 0.05
-	, N = 100000
+	, N = 1e5
 	, I = 1
 	, E = 1
 	, R = 0
