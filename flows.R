@@ -23,7 +23,9 @@ default = list(beta = 0.4
 	, R = 0
 	, D = 0
 	, cumIs = 0
+	, cumIc = 0
 	, prop_Is = 0.2
+	, prop_Ic = 0.02
 	, prop_Ds = 0.2
 	, cumDs = 0
 	, cumIncidence = 0

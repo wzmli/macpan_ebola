@@ -18,23 +18,24 @@ zeroDate <- min(dat$date)-dat_offset
 hackdat <- (dat
 	|> mutate(time = date - min(date) + dat_offset
 	)
-	|> select(time, newIs, cumDs=suspect_death, cumIs=suspect_cases, newDs)
+	|> select(time, newIs, cumDs=suspect_death, cumIs=suspect_cases, newDs, cumIc = confirmed_cases, newIc)
 	|> pivot_longer(!time, names_to = "type", values_to="value")
-	|>	mutate(type = factor(type,levels=c("cumDs","cumIs","cumIncidence"
-			, "newDs", "newIs", "Incidence"
+	|>	mutate(type = factor(type,levels=c("cumDs","cumIs","cumIc","cumIncidence"
+			, "newDs", "newIs","newIc", "Incidence"
 			)
 		)
 		, newDate = time + zeroDate
 	)
+	|> filter(value>0)
 )
 
 case_offset <- 12
 
 hacksims <- (bind_rows(sims)
-	|> mutate(time = ifelse(matrix %in% c("cumIs","newIs"),time + case_offset, time)
+	|> mutate(time = ifelse(matrix %in% c("cumIs","newIs","cumIc","newIc"),time + case_offset, time)
 		, effS = factor(effS)
-		, type = factor(matrix,levels=c("cumDs","cumIs","cumIncidence"
-			, "newDs", "newIs", "Incidence"
+		, type = factor(matrix,levels=c("cumDs","cumIs","cumIc","cumIncidence"
+			, "newDs", "newIs", "newIc","Incidence"
 			)
 		)
 	)
