@@ -1,48 +1,50 @@
 library(dplyr)
 library(macpan2)
+library(ggplot2);theme_set(theme_bw())
 library(shellpipes)
 
 
 loadEnvironments()
 
-n <- 1000
+nsims <- 10
 
 spec <- rdsRead()
 
-newspecs <- mp_tmb_update(spec,default=list(I0 = I0
-	, E0 = E0
-	)
-)
+beta <- 0.4
 
-print(newspecs)
+time_steps = 500L ## Days
 
-time_steps = 100 ## Days
-
-outputs <- c("I","infection","D")
+outputs <- c("incidence","D")
 # simulator object
-sir = mp_simulator(
-    model = newspecs
+
+simulator <- mp_simulator(
+    model = spec
   , time_steps = time_steps
   , outputs = outputs
 )
 
+det_sim <- (mp_trajectory(simulator))
 
-## ---------------------
+parameterized_sim <- (mp_tmb_calibrator(mp_euler_multinomial(spec)
+   , par = "beta"
+   , time = mp_sim_bounds(1,time_steps)
+   , outputs = outputs
+   )
+)
 
-inc_sim <- function(x){
-	dd <- (mp_trajectory(sir)
-		%>% mutate(NULL
-			, seed = x
-		)
-	)
+beta_sample <- rnorm(n=nsims,mean=beta,sd=0.001)
+
+sim_fn <- function(x){
+   stochsim <- mp_trajectory_par(parameterized_sim, list(beta=x))
 }
 
+stoch_sim <- (lapply(beta_sample,sim_fn)
+   |> bind_rows(.id="iter")
+)
 
-incdf <- bind_rows(lapply(1:n,inc_sim))
+simdf <- (det_sim
+   |> mutate(iter = "0")
+   |> bind_rows(stoch_sim)
+)
 
-print(incdf)
-
-
-rdsSave(incdf)
-
-
+rdsSave(simdf)

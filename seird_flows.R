@@ -1,19 +1,27 @@
+library(macpan2)
 library(shellpipes)
 
-flow_rates = list(
-	## infection ~ reulermultinom(S,clamp(I * beta * (1-ve*vaxprop)/N))
-	infection ~ reulermultinom(S,clamp(I * beta/N))
-	, progression ~ reulermultinom(E,clamp(alpha))
-	, recovery ~ reulermultinom(I, clamp((1-mort)*gamma))
-	, death ~ reulermultinom(I, clamp((mort*delta)))
+loadEnvironments()
+
+flow = list(
+	mp_per_capita_flow("S","E","beta * I / N","incidence")
+	, mp_per_capita_flow("E","I","alpha","progression")
+	, mp_per_capita_flow("I","R","(1-mort)*gamma","recovery")
+	, mp_per_capita_flow("I","D","(mort)*delta","death")
 )
 
-update_state = list(
-	S ~ S - infection 
-	, E ~ E + infection - progression
-	, I ~ I + progression - recovery - death
-	, R ~ R + recovery 
-	, D ~ D + death
+default = list(beta = 0.4
+	, alpha = 0.1
+	, gamma = 0.1
+	, delta = 0.1
+	, mort = 0.05
+	, N = 10000
+	, I = 1
+	, E = 1
+	, R = 0
+	, D = 0
 )	
 
-saveVars(flow_rates, update_state)
+initialize_state = list(S ~ N - E - I - R - D)
+
+saveVars(flow, default, initialize_state)

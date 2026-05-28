@@ -18,17 +18,38 @@ Sources += Makefile README.md $(wildcard *.R)
 Ignore += makestuff
 msrepo = https://github.com/dushoff
 
+######################################################################
+
+lldirs += ebola_2026
+ebola_2026/%: | ebola_2026 ;
+Ignore  += $(alldirs)
+
+ebola_2026: 
+	git clone https://github.com/wzmli/ebola_2026
+
+######################################################################
+
+read.Rout: ebola_2026/read.R ebola_2026/who3.csv
+	$(pipeR)
+
+clean.Rout: ebola_2026/clean.R read.rds
+	$(pipeR)
+
 seird_params.Rout: seird_params.R
 	$(pipeR)
 
-seird_flows.Rout: seird_flows.R seird_params.rda
+seird_flows.Rout: seird_flows.R  # seird_params.rda
 	$(pipeR)
 
-seird_spec.Rout: seird_spec.R seird_params.rda seird_flows.rda
+seird_spec.Rout: seird_spec.R seird_flows.rda
 	$(pipeR)
 
-seird_sims.Rout: sims.R seird_spec.rds seird_params.rda
+seird_sims.Rout: sims.R seird_spec.rds 
 	$(pipeR)
+
+seird_simplots.Rout: simplots.R seird_sims.rds clean.rds 
+	$(pipeR)
+
 
 ## ln -s ../makestuff . ## Do this first if you want a linked makestuff
 Makefile: makestuff/00.stamp
