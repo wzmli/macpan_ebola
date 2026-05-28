@@ -4,22 +4,23 @@ library(shellpipes)
 loadEnvironments()
 
 flow = list(
-	mp_per_capita_flow("S","E","beta * I / N","incidence")
-	, mp_per_capita_flow("E","I","alpha","progression")
-	, mp_per_capita_flow("I","R","(1-mort)*gamma","recovery")
-	, mp_per_capita_flow("I","D","(mort)*delta","death")
+	mp_per_capita_flow("S","E","beta * I / N","Incidence")
+	, mp_per_capita_flow("E","I","alpha","Progression")
+	, mp_per_capita_flow("I","R","(1-mort)*gamma","Recovery")
+	, mp_per_capita_flow("I","D","(mort)*delta","Death")
 )
 
 default = list(beta = 0.4
 	, alpha = 0.1
 	, gamma = 0.1
-	, delta = 0.1
+	, delta = 0.1 ## death delay
 	, mort = 0.05
-	, N = 10000
+	, N = 100000
 	, I = 1
 	, E = 1
 	, R = 0
 	, D = 0
+	, cumIs = 0
 )	
 
 initialize_state = list(S ~ N - E - I - R - D)

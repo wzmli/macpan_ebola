@@ -10,11 +10,11 @@ nsims <- 10
 
 spec <- rdsRead()
 
-beta <- 0.4
+beta <- default[["beta"]]
 
 time_steps = 500L ## Days
 
-outputs <- c("incidence","D")
+outputs <- c("cumIs","D","Inc_s","D_s")
 # simulator object
 
 simulator <- mp_simulator(
