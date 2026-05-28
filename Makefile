@@ -33,19 +33,19 @@ update:
 read.Rout: ebola_2026/read.R ebola_2026/who3.csv
 	$(pipeR)
 
-clean.Rout: ebola_2026/clean.R read.rds
+clean.Rout: clean.R read.rds
 	$(pipeR)
 
-seird_flows.Rout: seird_flows.R 
+flows.Rout: flows.R 
 	$(pipeR)
 
-seird_spec.Rout: seird_spec.R seird_flows.rda
+spec.Rout: spec.R flows.rda
 	$(pipeR)
 
-seird_sims.Rout: sims.R seird_spec.rds seird_flows.rda
+sims.Rout: sims.R spec.rds flows.rda
 	$(pipeR)
 
-seird_simplots.Rout: simplots.R seird_sims.rds clean.rds 
+simplots.Rout: simplots.R sims.rds clean.rds 
 	$(pipeR)
 
 ## ebola1.jpg
