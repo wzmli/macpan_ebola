@@ -14,7 +14,7 @@ beta <- default[["beta"]]
 
 time_steps = 500L ## Days
 
-outputs <- c("cumIs","D","Inc_s","D_s")
+outputs <- c("cumIs","Inc_s","cumDs","newDs")
 # simulator object
 
 simulator <- mp_simulator(

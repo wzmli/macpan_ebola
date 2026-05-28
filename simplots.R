@@ -8,12 +8,12 @@ sims <- rdsRead("sims")
 dat <- rdsRead("clean")
 print(dat)
 
-offset=90
+offset=95
 
 hackdat <- (dat
 	|> mutate(time = date - min(date) + offset
 	)
-	|> select(time, Inc_s=Inc, D_s=suspect_death, cumIs = suspect_cases)
+	|> select(time, Inc_s, cumDs=suspect_death, cumIs=suspect_cases, newDs)
 	|> pivot_longer(!time, names_to = "matrix", values_to="value")
 )
 

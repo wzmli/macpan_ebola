@@ -7,9 +7,9 @@ library(shellpipes)
 dat <- rdsRead()
 
 incdat <- (dat
-	|> mutate(Inc = diff(c(0,suspect_cases))
-		, newDeath = diff(c(0,suspect_death))
-		, cases = diff(c(0,confirmed_cases))
+	|> mutate(Inc_s = diff(c(0,suspect_cases))
+		, newDs = diff(c(0,suspect_death))
+		, Inc_c = diff(c(0,confirmed_cases))
 	)
 	|> filter(date > as.Date("2026-05-15"))
 )

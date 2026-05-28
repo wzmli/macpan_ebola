@@ -13,7 +13,7 @@ flow = list(
 default = list(beta = 0.4
 	, alpha = 0.1
 	, gamma = 0.1
-	, delta = 0.1 ## death delay
+	, delta = 1 ## death delay
 	, mort = 0.05
 	, N = 1e5
 	, I = 1
@@ -21,6 +21,9 @@ default = list(beta = 0.4
 	, R = 0
 	, D = 0
 	, cumIs = 0
+	, prop_Is = 0.2
+	, prop_Ds = 0.05
+	, cumDs = 0
 )	
 
 initialize_state = list(S ~ N - E - I - R - D)

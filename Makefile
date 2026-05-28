@@ -42,10 +42,17 @@ flows.Rout: flows.R
 spec.Rout: spec.R flows.rda
 	$(pipeR)
 
-sims.Rout: sims.R spec.rds flows.rda
+prop_spec.Rout: prop_spec.R spec.rds flows.rda
 	$(pipeR)
 
-simplots.Rout: simplots.R sims.rds clean.rds 
+## convolution
+convo_spec.Rout: convo_spec.R spec.rds flows.rda
+	$(pipeR)
+
+prop_sims.Rout: sims.R prop_spec.rds flows.rda
+	$(pipeR)
+
+prep_simplots.Rout: simplots.R prop_sims.rds clean.rds 
 	$(pipeR)
 
 ## ebola1.jpg
