@@ -6,52 +6,67 @@ library(shellpipes)
 
 loadEnvironments()
 
-nsims <- 10
+nsims <- 100
 
 spec <- rdsRead()
 
 beta <- default[["beta"]]
 
-time_steps = 500L ## Days
-outputs <- c("cumIs","newIs","cumDs","newDs")
+time_steps = 150L ## Days
+outputs <- c("cumIs","cumDs","cumIncidence","newIs","newDs","Incidence")
 
 # updating spec
 
-effS <- 0.01
+effSvec <- c(0.005,0.002,0.001)
+betavec <- c(0.4, 0.55)
 
-spec <- mp_tmb_update(spec
-	, default = list(N = default[["N"]]*effS)
-)
+ddparams <- expand.grid(effS = effSvec, beta=betavec)
+
+simtraj <- function(x){
+	pars <- ddparams[x,]
+	spec <- mp_tmb_update(spec
+		, default = list(N = default[["N"]]*pars$effS
+			, beta = pars$beta
+		)
+	)
 
 
-simulator <- mp_simulator(
-    model = spec
-  , time_steps = time_steps
-  , outputs = outputs
-)
+	simulator <- mp_simulator(model = spec
+  		, time_steps = time_steps
+  		, outputs = outputs
+	)
 
-det_sim <- (mp_trajectory(simulator))
+	det_sim <- (mp_trajectory(simulator))
 
-parameterized_sim <- (mp_tmb_calibrator(mp_euler_multinomial(spec)
-   , par = "beta"
-   , time = mp_sim_bounds(1,time_steps)
-   , outputs = outputs
-   )
-)
+	parameterized_sim <- (mp_tmb_calibrator(mp_euler_multinomial(spec)
+   	, par = "beta"
+   	, time = mp_sim_bounds(1,time_steps)
+   	, outputs = outputs
+   	)
+	)
 
-beta_sample <- rnorm(n=nsims,mean=beta,sd=0.01)
+	beta_sample <- rnorm(n=nsims,mean=pars$beta,sd=0.01)
 
-sim_fn <- function(x){
-   stochsim <- mp_trajectory_par(parameterized_sim, list(beta=x))
+	sim_fn <- function(y){
+   	stochsim <- mp_trajectory_par(parameterized_sim, list(beta=y))
+	}
+
+	stoch_sim <- (lapply(beta_sample,sim_fn)
+   	|> bind_rows(.id="iter")
+	)
+
+	simdf <- (det_sim
+   	|> mutate(iter = "0")
+   	|> bind_rows(stoch_sim)
+		|> mutate(NULL
+			, effS = pars$effS
+			, beta = pars$beta
+		)
+	)
+
+	return(simdf)
 }
 
-stoch_sim <- (lapply(beta_sample,sim_fn)
-   |> bind_rows(.id="iter")
-)
+simlist <- lapply(1:nrow(ddparams),simtraj)
 
-simdf <- (det_sim
-   |> mutate(iter = "0")
-   |> bind_rows(stoch_sim)
-)
-
-rdsSave(simdf)
+rdsSave(simlist)

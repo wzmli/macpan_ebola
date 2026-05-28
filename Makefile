@@ -52,7 +52,7 @@ convo_spec.Rout: convo_spec.R spec.rds flows.rda
 prop_sims.Rout: sims.R prop_spec.rds flows.rda
 	$(pipeR)
 
-## prop_simplots.Rout: simplots.R sims.R
+## prop_simplots.Rout: sims.R flows.R
 prop_simplots.Rout: simplots.R prop_sims.rds clean.rds 
 	$(pipeR)
 
