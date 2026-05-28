@@ -1,7 +1,5 @@
-## This is macpan_ebola …
+## This is macpan_ebola (Mike Li)
 
-## This section is for Dushoff-style vim-setup and vim targeting
-## You can delete it if you don't want it
 current: target
 -include target.mk
 Ignore = target.mk
