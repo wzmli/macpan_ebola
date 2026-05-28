@@ -6,8 +6,8 @@ loadEnvironments()
 spec <- rdsRead()
 
 prop_spec = mp_tmb_insert(spec
-	, expression = list(Inc_s ~ prop_Is * Incidence
-		, cumIs ~ cumIs + Inc_s
+	, expression = list(newIs ~ prop_Is * Incidence
+		, cumIs ~ cumIs + newIs
 		, newDs ~ prop_Ds * Death
 		, cumDs ~ cumDs + newDs
 		)

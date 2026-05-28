@@ -13,9 +13,16 @@ spec <- rdsRead()
 beta <- default[["beta"]]
 
 time_steps = 500L ## Days
+outputs <- c("cumIs","newIs","cumDs","newDs")
 
-outputs <- c("cumIs","Inc_s","cumDs","newDs")
-# simulator object
+# updating spec
+
+effS <- 0.01
+
+spec <- mp_tmb_update(spec
+	, default = list(N = default[["N"]]*effS)
+)
+
 
 simulator <- mp_simulator(
     model = spec
@@ -32,7 +39,7 @@ parameterized_sim <- (mp_tmb_calibrator(mp_euler_multinomial(spec)
    )
 )
 
-beta_sample <- rnorm(n=nsims,mean=beta,sd=0.001)
+beta_sample <- rnorm(n=nsims,mean=beta,sd=0.01)
 
 sim_fn <- function(x){
    stochsim <- mp_trajectory_par(parameterized_sim, list(beta=x))

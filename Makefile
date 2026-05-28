@@ -45,14 +45,15 @@ spec.Rout: spec.R flows.rda
 prop_spec.Rout: prop_spec.R spec.rds flows.rda
 	$(pipeR)
 
-## convolution
+## convolution (Currently not using)
 convo_spec.Rout: convo_spec.R spec.rds flows.rda
 	$(pipeR)
 
 prop_sims.Rout: sims.R prop_spec.rds flows.rda
 	$(pipeR)
 
-prep_simplots.Rout: simplots.R prop_sims.rds clean.rds 
+## prop_simplots.Rout: simplots.R sims.R
+prop_simplots.Rout: simplots.R prop_sims.rds clean.rds 
 	$(pipeR)
 
 ## ebola1.jpg
