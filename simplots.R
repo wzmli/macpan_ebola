@@ -60,5 +60,12 @@ gg <- (ggplot(hacksims,aes(x=newDate))
 	+ xlab("Date")
 )
 
+exportdat <- (hacksims
+	|> filter(type == "newIs", iter==0, effS == 0.002)
+	|> select(date=newDate, newIs = value)
+)
+
+csvSave(exportdat)
+
 print(gg)
 
