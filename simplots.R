@@ -14,6 +14,7 @@ dat_offset=95
 dat_offset=70
 
 zeroDate <- min(dat$date)-dat_offset
+cutdate <- as.Date("2026-06-15")
 
 hackdat <- (dat
 	|> mutate(time = date - min(date) + dat_offset
@@ -27,6 +28,7 @@ hackdat <- (dat
 		, newDate = time + zeroDate
 	)
 	|> filter(value>0)
+	|> filter(newDate <= cutdate)
 )
 
 case_offset <- 12
@@ -41,6 +43,7 @@ hacksims <- (bind_rows(sims)
 	)
 	|> filter(beta == 0.55)
 	|> mutate(newDate = time + zeroDate)
+	|> filter(newDate <= cutdate)
 )
 
 
@@ -55,3 +58,4 @@ gg <- (ggplot(hacksims,aes(x=newDate))
 )
 
 print(gg)
+
