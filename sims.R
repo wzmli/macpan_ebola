@@ -6,7 +6,7 @@ library(shellpipes)
 
 loadEnvironments()
 
-nsims <- 100
+nsims <- 150
 
 spec <- rdsRead()
 

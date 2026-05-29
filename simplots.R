@@ -49,7 +49,7 @@ hacksims <- (bind_rows(sims)
 
 gg <- (ggplot(hacksims,aes(x=newDate))
 	+ geom_line(alpha=0.1, aes(y=value,group=interaction(iter,effS),color=effS))
-	+ geom_line(data = filter(hacksims,iter==0),aes(x=newDate,y=value,color=effS))
+#	+ geom_line(data = filter(hacksims,iter==0),aes(x=newDate,y=value,color=effS))
 	+ scale_color_manual(values=c("black","blue","orange","dark green"))
 	+ facet_wrap(~type,scale="free",nrow=2)
 	+ geom_point(data=hackdat,size=0.5,color="red",aes(x=newDate,y=value))
