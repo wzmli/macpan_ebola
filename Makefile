@@ -58,6 +58,23 @@ prop_simplots.Rout: simplots.R prop_sims.rds clean.rds
 
 ## ebola1.jpg
 
+
+######################################################################
+
+
+complex_flows.Rout: complex_flows.R 
+	$(pipeR)
+
+complex_spec.Rout: spec.R complex_flows.rda
+	$(pipeR)
+
+complex_prop_spec.Rout: complex_prop_spec.R complex_spec.rds complex_flows.rda
+	$(pipeR)
+
+complex_sims.Rout: complex_sims.R complex_prop_spec.rds complex_flows.rda
+	$(pipeR)
+
+
 ######################################################################
 
 Makefile: makestuff/00.stamp
