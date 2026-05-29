@@ -10,8 +10,9 @@ startGraphics(width=8,height=5)
 sims <- rdsRead("sims")
 dat <- rdsRead("clean")
 
+#dat_offset=110
 dat_offset=95
-dat_offset=70
+#dat_offset=70
 
 zeroDate <- min(dat$date)-dat_offset
 cutdate <- as.Date("2026-06-15")
@@ -31,17 +32,19 @@ hackdat <- (dat
 	|> filter(newDate <= cutdate)
 )
 
-case_offset <- 12
+case_offset <- 15
 
 hacksims <- (bind_rows(sims)
-	|> mutate(time = ifelse(matrix %in% c("cumIs","newIs","cumIc","newIc"),time + case_offset, time)
+	|> mutate(time = ifelse(matrix %in% c("cumIs","newIs","cumIc","newIc","cumIncidence","Incidence"),time + case_offset, time)
 		, effS = factor(effS)
 		, type = factor(matrix,levels=c("cumDs","cumIs","cumIc","cumIncidence"
 			, "newDs", "newIs", "newIc","Incidence"
 			)
 		)
 	)
-	|> filter(beta == 0.55)
+#	|> filter(beta == 0.55)
+	|> filter(beta == 0.4)
+#	|> filter(beta == 0.35)
 	|> mutate(newDate = time + zeroDate)
 	|> filter(newDate <= cutdate)
 )
@@ -49,7 +52,7 @@ hacksims <- (bind_rows(sims)
 
 gg <- (ggplot(hacksims,aes(x=newDate))
 	+ geom_line(alpha=0.05, aes(y=value,group=interaction(iter,effS),color=effS))
-#	+ geom_line(data = filter(hacksims,iter==0),aes(x=newDate,y=value,color=effS))
+	+ geom_line(data = filter(hacksims,iter==0),aes(x=newDate,y=value,color=effS))
 	+ scale_color_manual(values=c("black","orange","blue","dark green"))
 	+ facet_wrap(~type,scale="free",nrow=2)
 	+ geom_point(data=hackdat,size=0.5,color="red",aes(x=newDate,y=value))

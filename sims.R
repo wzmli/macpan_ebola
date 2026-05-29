@@ -6,7 +6,7 @@ library(shellpipes)
 
 loadEnvironments()
 
-nsims <- 150
+nsims <- 100
 
 spec <- rdsRead()
 
@@ -17,8 +17,8 @@ outputs <- c("cumIs","cumIc","cumDs","cumIncidence","newIs","newIc","newDs","Inc
 
 # updating spec
 
-effSvec <- c(0.005,0.002,0.001)
-betavec <- c(0.4, 0.55)
+effSvec <- c(0.006,0.004,0.002)
+betavec <- c(0.35,0.4, 0.55)
 
 ddparams <- expand.grid(effS = effSvec, beta=betavec)
 
