@@ -30,7 +30,7 @@ ebola_2026:
 update:
 	cd ebola_2026 && $(MAKE) pull
 
-read.Rout: ebola_2026/read.R ebola_2026/who3.csv
+read.Rout: ebola_2026/read.R ebola_2026/drc_sitrep.csv
 	$(pipeR)
 
 clean.Rout: clean.R read.rds
@@ -74,6 +74,8 @@ complex_prop_spec.Rout: complex_prop_spec.R complex_spec.rds complex_flows.rda
 complex_sims.Rout: complex_sims.R complex_prop_spec.rds complex_flows.rda
 	$(pipeR)
 
+complex_simplots.Rout: complex_simplots.R complex_sims.rds clean.rds
+	$(pipeR)
 
 ######################################################################
 
