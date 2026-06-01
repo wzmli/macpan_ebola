@@ -5,7 +5,7 @@ library(tidyr)
 library(zoo)
 library(shellpipes)
 
-startGraphics(width=8,height=5)
+startGraphics(width=8,height=4)
 
 sims <- rdsRead("sims")
 dat <- rdsRead("clean")
@@ -32,10 +32,10 @@ hackdat <- (dat
 	|> filter(newDate <= cutdate)
 )
 
-case_offset <- 15
+case_offset <- 20
 
 hacksims <- (bind_rows(sims)
-	|> mutate(time = ifelse(matrix %in% c("cumIs","newIs","cumIc","newIc","cumIncidence","Incidence"),time + case_offset, time)
+	|> mutate(time = ifelse(matrix %in% c("cumIs","newIs","cumIc","newIc","cumIncidence","Incidence"),time + case_offset, time+5)
 		, effS = factor(effS)
 		, type = factor(matrix,levels=c("cumDs","cumIs","cumIc","cumIncidence"
 			, "newDs", "newIs", "newIc","Incidence"
