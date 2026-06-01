@@ -37,7 +37,9 @@ default = list(beta_I = 0.4
 	, prop_Is = 0.2
 	, prop_Ic = 0.02
 	, prop_Ds = 0.2
+	, prop_Dc = 0.02
 	, cumDs = 0
+	, cumDc = 0
 	, cumIncidence = 0
 )	
 

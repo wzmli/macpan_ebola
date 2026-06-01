@@ -13,7 +13,7 @@ spec <- rdsRead()
 beta_D <- default[["beta_D"]]
 
 time_steps = 150L ## Days
-outputs <- c("cumIs","cumIc","cumDs","cumIncidence","newIs","newIc","newDs","Incidence")
+outputs <- c("cumIs","cumIc","cumDs","cumDc","newIs","newIc","newDs","newDc")
 
 # updating spec
 

@@ -20,10 +20,10 @@ cutdate <- as.Date("2026-06-15")
 hackdat <- (dat
 	|> mutate(time = date - min(date) + dat_offset
 	)
-	|> select(time, newIs, cumDs=suspect_death, cumIs=suspect_cases, newDs, cumIc = confirmed_cases, newIc)
+	|> select(time, newIs, cumDs=suspect_death, cumIs=suspect_cases, newDs, cumIc = confirmed_cases, newIc, cumDc = confirmed_death, newDc)
 	|> pivot_longer(!time, names_to = "type", values_to="value")
-	|>	mutate(type = factor(type,levels=c("cumDs","cumIs","cumIc","cumIncidence"
-			, "newDs", "newIs","newIc", "Incidence"
+	|>	mutate(type = factor(type,levels=c("cumDs","cumDc","cumIs","cumIc"
+			, "newDs", "newDc" ,"newIs","newIc"
 			)
 		)
 		, newDate = time + zeroDate
@@ -37,8 +37,8 @@ case_offset <- 20
 hacksims <- (bind_rows(sims)
 	|> mutate(time = ifelse(matrix %in% c("cumIs","newIs","cumIc","newIc","cumIncidence","Incidence"),time + case_offset, time+5)
 		, effS = factor(effS)
-		, type = factor(matrix,levels=c("cumDs","cumIs","cumIc","cumIncidence"
-			, "newDs", "newIs", "newIc","Incidence"
+		, type = factor(matrix,levels=c("cumDs","cumDc","cumIs","cumIc"
+			, "newDs", "newDc","newIs", "newIc"
 			)
 		)
 	)

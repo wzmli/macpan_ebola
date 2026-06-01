@@ -10,6 +10,7 @@ incdat <- (dat
 	|> mutate(newIs = diff(c(0,suspect_cases))
 		, newDs = diff(c(0,suspect_death))
 		, newIc = diff(c(0,confirmed_cases))
+		, newDc = diff(c(0,confirmed_death))
 	)
 	|> filter(date > as.Date("2026-05-15"))
 )
