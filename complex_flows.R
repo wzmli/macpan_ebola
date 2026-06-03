@@ -34,8 +34,8 @@ default = list(beta_I = 0.4
 	, B = 0
 	, cumIs = 0
 	, cumIc = 0
-	, prop_Is = 0.2
-	, prop_Ic = 0.02
+	, prop_Is = 0.5
+	, prop_Ic = 0.1
 	, prop_Ds = 0.2
 	, prop_Dc = 0.02
 	, cumDs = 0
