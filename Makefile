@@ -74,7 +74,13 @@ complex_prop_spec.Rout: complex_prop_spec.R complex_spec.rds complex_flows.rda
 complex_sims.Rout: complex_sims.R complex_prop_spec.rds complex_flows.rda
 	$(pipeR)
 
+complex_detsims.Rout: complex_detsims.R complex_prop_spec.rds complex_flows.rda
+	$(pipeR)
+
 complex_simplots.Rout: complex_simplots.R complex_sims.rds clean.rds
+	$(pipeR)
+
+complex_detsimplots.Rout: complex_detsimplots.R complex_detsims.rds clean.rds
 	$(pipeR)
 
 ######################################################################
