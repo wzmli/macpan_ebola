@@ -16,6 +16,7 @@ dat_offset=95
 
 zeroDate <- min(dat$date)-dat_offset
 cutdate <- as.Date("2026-06-20")
+cutdate <- as.Date("2026-09-20")
 hackdat <- (dat
 	|> mutate(time = date - min(date) + dat_offset
 	)
@@ -84,5 +85,12 @@ print(gg %+% filter(hacksims2, type %in% c("cumDs","cumDc", "cumIs", "cumIc"))
 #	+ geom_line(data = filter(hacksims,iter==0, type %in% c("cumDs","cumDc","cumIs","cumIc")),aes(x=newDate,y=value,color=effS))
 	+ geom_point(data=filter(hackdat, type %in% c("cumDs","cumDc", "cumIs", "cumIc")),size=0.5, color="red",aes(x=newDate,y=value))
 	+ xlim(c(as.Date("2026-05-15"),as.Date("2026-06-15")))
+)
+
+print(gg %+% filter(hacksims2, type %in% c("newDs","newDc", "newIs", "newIc"))
+#	+ geom_line(data = filter(hacksims,iter==0, type %in% c("cumDs","cumDc","cumIs","cumIc")),aes(x=newDate,y=value,color=effS))
+	+ geom_point(data=filter(hackdat, type %in% c("newDs","newDc", "newIs", "newIc")),size=0.5, color="red",aes(x=newDate,y=value))
+#	+ xlim(c(as.Date("2026-05-15"),as.Date("2026-06-15")))
+	+ xlim(c(as.Date("2026-05-15"),NA))
 )
 

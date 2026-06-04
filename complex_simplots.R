@@ -16,6 +16,7 @@ dat_offset=95
 
 zeroDate <- min(dat$date)-dat_offset
 cutdate <- as.Date("2026-06-20")
+cutdate <- as.Date("2026-09-20")
 hackdat <- (dat
 	|> mutate(time = date - min(date) + dat_offset
 	)
@@ -45,9 +46,15 @@ hacksims <- (bind_rows(sims)
 #	|> filter(beta_D == 0.4)
 #	|> filter(beta == 0.35)
 	|> mutate(newDate = time + zeroDate)
-	|> filter(newDate <= cutdate)
 )
 
+
+hacksims2 <- (hacksims
+	|> group_by(newDate,type,effS)
+	|> summarise(lwr=quantile(value,prob=0.025)
+		, upr=quantile(value,prob=0.975)
+	)
+)
 
 gg <- (ggplot(hacksims,aes(x=newDate))
 	+ geom_line(alpha=0.05, aes(y=value,group=interaction(iter,effS),color=effS))
@@ -76,3 +83,33 @@ print(gg %+% filter(hacksims, type %in% c("cumDs","cumDc", "cumIs", "cumIc"))
 	+ xlim(c(as.Date("2026-05-15"),as.Date("2026-06-15")))
 )
 
+
+gg2 <- (ggplot(hacksims2,aes(x=newDate))
+#	+ geom_ribbon(alpha=0.2, aes(ymin=lwr,ymax=upr,fill=effS))
+#	+ geom_point(data=hackdat,size=0.5,color="red",aes(x=newDate,y=value))
+#	+ geom_line(data = filter(hacksims,iter==0),aes(x=newDate,y=value,color=effS))
+	+ scale_color_manual(values=c("black","orange","blue","dark green"))
+	+ scale_fill_manual(values=c("black","orange","blue","dark green"))
+	+ facet_wrap(~type,scale="free",nrow=2)
+	+ theme(legend.position="bottom")
+	+ xlab("Date")
+	+ geom_vline(aes(xintercept = as.Date("2026-05-28")),linetype = "dotted")
+)
+
+print(gg2
+	+ geom_ribbon(alpha=0.2, aes(ymin=lwr,ymax=upr,fill=effS))
+	+ geom_point(data=hackdat,size=0.5,color="red",aes(x=newDate,y=value))
+	+ geom_line(data = filter(hacksims,iter==0),aes(x=newDate,y=value,color=effS))
+	+ scale_color_manual(values=c("black","orange","blue","dark green"))
+)
+
+print(gg2 %+% filter(hacksims2, type %in% c("cumDs","cumDc", "cumIs", "cumIc"))
+	+ geom_ribbon(alpha=0.2, aes(ymin=lwr,ymax=upr,fill=effS))
+	+ geom_line(data = filter(hacksims,iter==0, type %in% c("cumDs","cumDc","cumIs","cumIc")),aes(x=newDate,y=value,color=effS))
+	+ geom_point(data=filter(hackdat, type %in% c("cumDs","cumDc", "cumIs", "cumIc")),size=0.5, color="red",aes(x=newDate,y=value))
+)
+print(gg2 %+% filter(hacksims2, type %in% c("newDs","newDc", "newIs", "newIc"))
+	+ geom_ribbon(alpha=0.2, aes(ymin=lwr,ymax=upr,fill=effS))
+	+ geom_line(data = filter(hacksims,iter==0, type %in% c("newDs","newDc","newIs","newIc")),aes(x=newDate,y=value,color=effS))
+	+ geom_point(data=filter(hackdat, type %in% c("newDs","newDc", "newIs", "newIc")),size=0.5, color="red",aes(x=newDate,y=value))
+)

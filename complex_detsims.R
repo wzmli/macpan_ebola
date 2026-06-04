@@ -11,8 +11,9 @@ nsims <- 100
 spec <- rdsRead()
 
 beta_D <- default[["beta_D"]]
+gamma <- default[["gamma"]]
 
-time_steps = 150L ## Days
+time_steps = 200L ## Days
 outputs <- c("cumIs","cumIc","cumDs","cumDc","cumIncidence","newIs","newIc","newDs","newDc","Incidence")
 
 # updating spec
