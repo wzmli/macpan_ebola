@@ -11,7 +11,7 @@ sims <- rdsRead("sims")
 dat <- rdsRead("clean")
 
 #dat_offset=110
-dat_offset=95
+dat_offset=100
 #dat_offset=70
 
 zeroDate <- min(dat$date)-dat_offset
