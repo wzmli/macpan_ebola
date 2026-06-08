@@ -27,7 +27,7 @@ ebola_2026:
 
 ######################################################################
 
-update:
+update: | ebola_2026
 	cd ebola_2026 && $(MAKE) pull
 
 read.Rout: ebola_2026/read.R ebola_2026/drc_sitrep.csv
@@ -56,11 +56,10 @@ prop_sims.Rout: sims.R prop_spec.rds flows.rda
 prop_simplots.Rout: simplots.R prop_sims.rds clean.rds 
 	$(pipeR)
 
-## ebola1.jpg
+## ebola1.jpg ebola2.jpg
 
 
 ######################################################################
-
 
 complex_flows.Rout: complex_flows.R 
 	$(pipeR)
