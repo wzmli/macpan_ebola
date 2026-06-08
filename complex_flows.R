@@ -1,6 +1,5 @@
 library(macpan2)
 library(shellpipes)
-
 loadEnvironments()
 
 flow = list(
