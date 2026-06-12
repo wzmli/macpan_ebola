@@ -140,4 +140,5 @@ print(gg2 %+% filter(hacksims2, type3 %in% c("Cumulative cases","Cumulative deat
 	+ geom_line(data = filter(hacksims,iter==0, type3 %in% c("Cumulative cases","Cumulative deaths","Daily new cases")),aes(x=newDate,y=value,color=effS))
 	+ geom_point(data=filter(hackdat, type3 %in% c("Cumulative cases","Cumulative deaths", "Daily new cases")),size=0.5, color="red",aes(x=newDate,y=value))
 	+ coord_cartesian(xlim=c(as.Date("2026-05-01"),as.Date("2026-06-25")))
+	+ labs(color="Proportion of population at risk",fill="Proportion of population at risk")
 )
