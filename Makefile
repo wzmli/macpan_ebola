@@ -82,6 +82,10 @@ complex_simplots.Rout: complex_simplots.R complex_sims.rds clean.rds
 complex_detsimplots.Rout: complex_detsimplots.R complex_detsims.rds clean.rds
 	$(pipeR)
 
+complex_calibrate.Rout: complex_calibrate.R complex_prop_spec.rds complex_flows.rda clean.rds
+	$(pipeR)
+
+
 ######################################################################
 
 Makefile: makestuff/00.stamp
