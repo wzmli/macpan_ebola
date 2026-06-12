@@ -1,3 +1,16 @@
+##### 2026 June 12 (Fri)
+
+We want to explore different reporting prop.
+We know that the transmission rate (beta), effective population (effS) and reporting are all correlated and will affect the dynamics. We are going to experiment with different betas and calibrate to reported cases and estimate the reporting proportion.
+
+
+
+##### 2026 June 9 (Tues)
+
+JD mentioned to follow up with cumulative cases as it can have different interpretations:
+1. new discovery of infections/cases
+2. newly confirmed cases from the big pool of samples
+
 
 ##### 2026 May 27 (Wed)
  
