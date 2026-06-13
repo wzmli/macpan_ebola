@@ -2,11 +2,12 @@ library(macpan2)
 library(tidyverse)
 library(zoo)
 library(shellpipes)
+startGraphics(width=8,height=4)
 
 loadEnvironments()
 
-time_steps <- 200
-firstdate <- as.Date("2026-02-01")
+time_steps <- 300
+firstdate <- as.Date("2026-05-01")
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")
@@ -19,24 +20,51 @@ firstdat <- data.frame(
 	, newDc = NA
 )
 
+
+
 calibdat <- (bind_rows(firstdat,dat)
 	|> mutate(time = as.numeric(date - min(date))+1)
-	|> group_by(time)
-	|> pivot_longer(-c(time,names_to = "matrix", values_to = "value")
+	|> select(-date)
+	|> pivot_longer(-time,names_to = "matrix", values_to = "value")
 	|> filter(!is.na(value))
 )
 
-print(calibdat,n=Inf)
+## define priors
 
-calib <- mp_tmb_calibrator(spec = rdsRead("complex_prop_spec") |> mp_rk4()
+get_prior = function(trans) function(rng) {
+  mp_norm(
+    (trans(rng[1]) + trans(rng[2])) / 2
+    , log((trans(rng[2]) - trans(rng[1])) / (2 * 1.96))
+  )
+}
+
+
+print(get_prior(log)(prior_range[["beta_I"]]))
+
+priors <- list(log_beta_I = get_prior(log)(prior_range[["beta_I"]])
+	, log_beta_D = get_prior(log)(prior_range[["beta_D"]])
+#	, log_effS = get_prior(log)(prior_range[["effS"]])
+	, logit_mort = get_prior(qlogis)(prior_range[["mort"]])
+	, logit_prop_Ic = get_prior(qlogis)(prior_range[["prop_Ic"]])
+	, logit_prop_Dc = get_prior(qlogis)(prior_range[["prop_Dc"]])
+)
+
+newspec <- mp_tmb_update(rdsRead("complex_prop_spec")
+	, default = list(alpha = 0.1
+		)
+)
+
+
+
+calib <- mp_tmb_calibrator(spec = newspec |> mp_rk4()
 	, data = calibdat
 	, time = mp_sim_bounds(1, time_steps)
-	, traj = list(newIc ~ mp_norm(0,sd = log(20))
-		, newDc ~ mp_norm(0,sd=log(5))
+	, traj = list(newIc ~ mp_norm(0,sd = log(10))
+#		, newDc ~ mp_norm(0,sd=log(5))
 	)
 #	, traj = c("newIc","newDc")
-	, par = c("log_prop_Ic", "log_prop_Dc")
-	, outputs = c("newIc","newDc")
+	, par = priors
+	, outputs = c("newIc","newDc","Incidence","Death")
 )
 
 cal_opt = mp_optimize(calib)
@@ -45,17 +73,23 @@ cal_opt = mp_optimize(calib)
 
 print(cal_opt)
 
+cal_est <- mp_tmb_coef(calib, conf.int=TRUE)
+
+print(cal_est)
+
 ## Plots
 
 fitted_data = (mp_trajectory_sd(calib, conf.int = TRUE)
 	|> mutate(date = time + firstdate)
 )
 
-print(fitted_data)
+calibdat <- (calibdat
+	|> mutate(date = firstdate + time)
+)
 
 gg <- (ggplot(data = (fitted_data ))
-  + geom_line(aes(time, value))
-  + geom_ribbon(aes(time, ymin = conf.low, ymax = conf.high)
+  + geom_line(aes(date, value))
+  + geom_ribbon(aes(date, ymin = conf.low, ymax = conf.high)
     , alpha = 0.2
     , colour = "red"
   )
@@ -66,5 +100,10 @@ gg <- (ggplot(data = (fitted_data ))
 print(gg)
 
 
+print(gg	
+	+ coord_cartesian(xlim=c(as.Date("2026-05-01"),as.Date("2026-08-25"))
+		, ylim = c(0,5000)
+	)
+)
 
 

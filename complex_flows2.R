@@ -2,10 +2,9 @@ library(macpan2)
 library(shellpipes)
 loadEnvironments()
 
-
 flow = list(
-	mp_per_capita_flow("S","E","beta_I * I / N","Incidence_I")
-	, mp_per_capita_flow("S","E","beta_D * Dunsafe / N","Incidence_D")
+	mp_per_capita_flow("S","E","beta * I / N","Incidence_I")
+	, mp_per_capita_flow("S","E","beta * Dunsafe / N","Incidence_D")
 	, mp_per_capita_flow("E","I","alpha","Progression")
 	, mp_per_capita_flow("I","R","(1-mort)*gamma","Recovery")
 	, mp_per_capita_flow("I","Dsafe","(mort)*(1-unsafe)*delta","Death_safe")
@@ -16,15 +15,14 @@ flow = list(
 	, Death ~ Death_safe + Death_unsafe
 )
 
-default = list(beta_I = 0.4
-	, beta_D = 0.5
+default = list(beta = 0.3
 	, alpha = 0.1
 	, gamma = 0.1
 	, delta = 1 ## death delay
 	, phi = 0.1
 	, unsafe = 0.3
-	, mort = 0.03
-	, effS = 0.001
+	, mort = 0.2
+	, effS = 0.1
 	, N = 1.8e7
 	, I = 1
 	, E = 1
@@ -37,13 +35,12 @@ default = list(beta_I = 0.4
 	, prop_Is = 0.5
 	, prop_Ic = 0.1
 	, prop_Ds = 0.2
-	, prop_Dc = 0.2
+	, prop_Dc = 0.02
 	, cumDs = 0
 	, cumDc = 0
 	, cumIncidence = 0
 )	
 
-initialize_state = list(N ~ effS*N
-	, S ~ N - E - I - R - Dsafe - Dunsafe - B)
+initialize_state = list(S ~ N - E - I - R - Dsafe - Dunsafe - B)
 
 saveVars(flow, default, initialize_state)
