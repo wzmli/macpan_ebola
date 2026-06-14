@@ -88,6 +88,11 @@ complex_priors.Rout: complex_priors.R
 complex_calibrate.Rout: complex_calibrate.R complex_prop_spec.rds complex_flows.rda clean.rds complex_priors.rda
 	$(pipeR)
 
+complex_pps.Rout: pps.R complex_calibrate.rds
+	$(pipeR)
+
+complex_pps_sims.Rout: pps_sims.R complex_pps.rda
+	$(pipeR)
 
 ######################################################################
 

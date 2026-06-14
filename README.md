@@ -1,3 +1,10 @@
+##### 2026 June 113 (Sat)
+
+Finish the pipeline for pop_pred_samp. There are priors for most of the parameter of interest. We are still doing simple proportion and not convolution for now. 
+
+TODO: The scenarios will be based on changing priors
+
+
 ##### 2026 June 12 (Fri)
 
 We want to explore different reporting prop.

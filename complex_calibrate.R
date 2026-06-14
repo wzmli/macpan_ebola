@@ -43,7 +43,7 @@ print(get_prior(log)(prior_range[["beta_I"]]))
 
 priors <- list(log_beta_I = get_prior(log)(prior_range[["beta_I"]])
 	, log_beta_D = get_prior(log)(prior_range[["beta_D"]])
-#	, log_effS = get_prior(log)(prior_range[["effS"]])
+	, log_effS = get_prior(log)(prior_range[["effS"]])
 	, logit_mort = get_prior(qlogis)(prior_range[["mort"]])
 	, logit_prop_Ic = get_prior(qlogis)(prior_range[["prop_Ic"]])
 	, logit_prop_Dc = get_prior(qlogis)(prior_range[["prop_Dc"]])
@@ -106,4 +106,4 @@ print(gg
 	)
 )
 
-
+rdsSave(calib)
