@@ -3,7 +3,7 @@ library(shellpipes)
 
 dd <- (bind_rows(rdsReadList()))
 firstdate <- as.Date("2026-03-01")
-nudge <- 5
+nudge <- 2
 
 simdf <- (dd
 	|> mutate(date = firstdate + time - 1 + nudge)
@@ -79,6 +79,8 @@ newIc <- (simdf3
 		, date
 		, newIc = med
 	)
+	|> ungroup()
+	|> mutate(cumIc = cumsum(newIc))
 )
 
 print(newIc,n=Inf)
