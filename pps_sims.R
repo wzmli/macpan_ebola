@@ -20,7 +20,10 @@ simpps <- function(x){
 
 simdf <- (lapply(1:nrow(theta_samp),simpps) 
 	|> bind_rows(.id="iter")
+	|> mutate(type = pipeStar())
 )
+
+print(head(simdf))
 
 rdsSave(simdf)
 

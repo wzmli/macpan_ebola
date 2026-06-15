@@ -114,7 +114,7 @@ impmakeR += pps
 	$(pipeR)
 
 impmakeR += pps_sims
-# ll_complex_pps_sims.Rout:
+# ll_complex_pps_sims.Rout: pps_sims.R
 # lh_complex_pps_sims.Rout:
 # hl_complex_pps_sims.Rout:
 # hh_complex_pps_sims.Rout:
@@ -129,6 +129,8 @@ impmakeR += pps_plots
 %_complex_pps_plots.Rout: pps_plots.R %_complex_pps_sims.rds clean.rds
 	$(pipeR)
 
+combo_pps.Rout: combo_pps.R ll_complex_pps_sims.rds lh_complex_pps_sims.rds hl_complex_pps_sims.rds hh_complex_pps_sims.rds
+	$(pipeR)
 
 
 ######################################################################

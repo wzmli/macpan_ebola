@@ -11,6 +11,8 @@ nudge <- 5
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
 )
+
+
 dat <- (rdsRead("clean")
 	|> select(date, newIc, newDc, cumIc = confirmed_cases, cumDc = confirmed_death)
 	|> pivot_longer(-date,names_to="matrix",values_to = "value")

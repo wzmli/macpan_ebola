@@ -4,7 +4,7 @@ We are going to create scenarios using priors.
 We will have 4 scenarios:
 LL,LH,HL and HH for eff and beta and see how it changes reporting proportions
 
-
+ML: Based on trying various priors for beta, reporting and effS, beta almost always converge to the same ball park posterior regardless what priors. This is probably the data is strong enough to fit the underlying transmission rate. Therefore, the only they that affects duration of peak, final size is effS and what we think of under reporting. 
 
 
 ##### 2026 June 13 (Sat)
