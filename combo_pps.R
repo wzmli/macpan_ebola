@@ -1,4 +1,4 @@
-library(tidyverse)
+library(tidyverse);theme_set(theme_bw())
 library(shellpipes)
 
 dd <- (bind_rows(rdsReadList()))
@@ -12,6 +12,7 @@ simdf <- (dd
 )
 
 simdf$value2 <- rpois(lambda=simdf$value,n=length(simdf$value))
+simdf$value2 <- pmax(rnorm(mean=simdf$value,sd=5,n=length(simdf$value)),0)
 
 dat <- (readRDS("clean.rds")
 	|> select(date, newIc, newDc, cumIc = confirmed_cases, cumDc = confirmed_death)
@@ -39,3 +40,23 @@ gg2 <-(ggplot(simdf2, aes(date,med))
 
 print(gg2)
 
+simdf3 <- (simdf2
+	|> filter(matrix %in% c("newIc","newDc","cumIncidence","cumIc","cumDc"))
+	|> mutate(NULL
+		, reporting = ifelse(type %in% c("hh","hl"),"high","low")
+		, effective_pop = ifelse(type %in% c("ll","hl"), "low","high")
+	)
+)
+
+gg3 <- (ggplot(simdf3, aes(date,med))
+	+ geom_line(aes(color=effective_pop))
+	+ geom_ribbon(aes(ymin=lwr,ymax=upr,fill=effective_pop),alpha=0.2)
+	+ scale_color_manual(values=c("black","blue"))
+	+ scale_fill_manual(values=c("black","blue"))
+	+ facet_grid(matrix ~ reporting,scale="free")
+	+ geom_point(data=dat,aes(date,value),color="red",size=0.5)
+	+ xlim(as.Date(c("2026-05-01","2026-10-01")))
+)
+
+print(gg3 + xlim(as.Date(c("2026-05-01","2026-10-01"))))
+print(gg3 + xlim(as.Date(c("2026-05-01","2026-09-01"))))
