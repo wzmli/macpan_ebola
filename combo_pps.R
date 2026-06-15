@@ -60,3 +60,12 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 
 print(gg3 + xlim(as.Date(c("2026-05-01","2026-10-01"))))
 print(gg3 + xlim(as.Date(c("2026-05-01","2026-08-01"))))
+
+print(simdf3
+	|> filter(matrix == "cumIncidence")
+	|> filter(date == as.Date("2026-06-15"))
+)
+print(simdf3
+	|> filter(matrix == "cumIncidence")
+	|> filter(date == as.Date("2026-10-01"))
+)
