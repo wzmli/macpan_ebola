@@ -7,11 +7,12 @@ startGraphics(width=8,height=4)
 loadEnvironments()
 
 time_steps <- 300
-firstdate <- as.Date("2026-05-01")
+firstdate <- as.Date("2026-03-01")
+
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")
-	|> select(date, newIc, newDc)
+	|> select(date, newIc, newDc, cumIc = confirmed_cases, cumDc=confirmed_death)
 )
 
 firstdat <- data.frame(
@@ -59,12 +60,16 @@ newspec <- mp_tmb_update(rdsRead("complex_prop_spec")
 calib <- mp_tmb_calibrator(spec = newspec |> mp_rk4()
 	, data = calibdat
 	, time = mp_sim_bounds(1, time_steps)
-	, traj = list(newIc ~ mp_norm(0,sd = log(10))
+#	, traj = list(newIc ~ mp_norm(0,sd = log(15))
 #		, newDc ~ mp_norm(0,sd=log(5))
-	)
+#		, cumIc ~ mp_norm(0,sd=log(15))
+#		, cumDc ~ mp_norm(0,sd=log(5))
+#	)
 #	, traj = c("newIc","newDc")
+#	, traj = c("newIc")
+	, traj = c("newDc")
 	, par = priors
-	, outputs = c("newIc","newDc","Incidence","Death")
+	, outputs = c("newIc","newDc","Incidence","cumIc","cumDc","cumIncidence")
 )
 
 cal_opt = mp_optimize(calib)

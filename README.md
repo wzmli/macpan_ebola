@@ -1,4 +1,13 @@
-##### 2026 June 113 (Sat)
+##### 2026 June 14 (Sun)
+
+We are going to create scenarios using priors. 
+We will have 4 scenarios:
+LL,LH,HL and HH for eff and beta and see how it changes reporting proportions
+
+
+
+
+##### 2026 June 13 (Sat)
 
 Finish the pipeline for pop_pred_samp. There are priors for most of the parameter of interest. We are still doing simple proportion and not convolution for now. 
 

@@ -12,7 +12,7 @@ param_vec <- param_est[["estimate"]]
 vcov_mat <- mp_tmb_fixef_cov(cal)
 print(vcov_mat)
 
-theta_samp <- MASS::mvrnorm(n = 1000
+theta_samp <- MASS::mvrnorm(n = 500
   ,mu = param_vec
   ,Sigma = vcov_mat
 )

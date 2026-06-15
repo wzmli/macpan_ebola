@@ -22,6 +22,8 @@ simdf <- (lapply(1:nrow(theta_samp),simpps)
 	|> bind_rows(.id="iter")
 )
 
+rdsSave(simdf)
+
 gg <- (ggplot(filter(simdf,iter<20),aes(time,value,group=iter))
 	+ geom_line(alpha=0.1)
 	+ facet_wrap(~matrix,scale="free")

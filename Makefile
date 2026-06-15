@@ -85,14 +85,51 @@ complex_detsimplots.Rout: complex_detsimplots.R complex_detsims.rds clean.rds
 complex_priors.Rout: complex_priors.R
 	$(pipeR)
 
-complex_calibrate.Rout: complex_calibrate.R complex_prop_spec.rds complex_flows.rda clean.rds complex_priors.rda
+ll_priors.Rout: ll_priors.R
 	$(pipeR)
 
-complex_pps.Rout: pps.R complex_calibrate.rds
+lh_priors.Rout: lh_priors.R
 	$(pipeR)
 
-complex_pps_sims.Rout: pps_sims.R complex_pps.rda
+hl_priors.Rout: hl_priors.R
 	$(pipeR)
+
+hh_priors.Rout: hh_priors.R
+	$(pipeR)
+
+impmakeR += complex_calibrate
+# ll_complex_calibrate.Rout: complex_calibrate.R
+# lh_complex_calibrate.Rout:
+# hl_complex_calibrate.Rout:
+# hh_complex_calibrate.Rout:
+%_complex_calibrate.Rout: complex_calibrate.R complex_prop_spec.rds complex_flows.rda clean.rds %_priors.rda
+	$(pipeR)
+
+impmakeR += pps
+# ll_complex_pps.Rout: 
+# lh_complex_pps.Rout:
+# hl_complex_pps.Rout:
+# hh_complex_pps.Rout:
+%_complex_pps.Rout: pps.R %_complex_calibrate.rds
+	$(pipeR)
+
+impmakeR += pps_sims
+# ll_complex_pps_sims.Rout:
+# lh_complex_pps_sims.Rout:
+# hl_complex_pps_sims.Rout:
+# hh_complex_pps_sims.Rout:
+%_complex_pps_sims.Rout: pps_sims.R %_complex_pps.rda
+	$(pipeR)
+
+impmakeR += pps_plots
+# ll_complex_pps_plots.Rout: pps_plots.R
+# lh_complex_pps_plots.Rout:
+# hl_complex_pps_plots.Rout:
+# hh_complex_pps_plots.Rout:
+%_complex_pps_plots.Rout: pps_plots.R %_complex_pps_sims.rds clean.rds
+	$(pipeR)
+
+
 
 ######################################################################
 
