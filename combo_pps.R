@@ -69,3 +69,18 @@ print(simdf3
 	|> filter(matrix == "cumIncidence")
 	|> filter(date == as.Date("2026-10-01"))
 )
+
+newIc <- (simdf3
+	|> filter(matrix == "newIc")
+	|> filter(date >= as.Date("2026-05-01"))
+	|> filter(date < as.Date("2026-08-01"))
+	|> filter(type == "lh")
+	|> transmute(NULL
+		, date
+		, newIc = med
+	)
+)
+
+print(newIc,n=Inf)
+
+csvSave(newIc)
