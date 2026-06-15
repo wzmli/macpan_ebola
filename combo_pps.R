@@ -59,4 +59,4 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 )
 
 print(gg3 + xlim(as.Date(c("2026-05-01","2026-10-01"))))
-print(gg3 + xlim(as.Date(c("2026-05-01","2026-09-01"))))
+print(gg3 + xlim(as.Date(c("2026-05-01","2026-08-01"))))
