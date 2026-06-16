@@ -46,6 +46,7 @@ simdf3 <- (simdf2
 		, reporting = ifelse(type %in% c("hh","hl"),"high","low")
 		, effective_pop = ifelse(type %in% c("ll","hl"), "low","high")
 	)
+	|> rename(report_type = matrix)
 )
 
 gg3 <- (ggplot(simdf3, aes(date,med))
@@ -53,7 +54,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_ribbon(aes(ymin=lwr,ymax=upr,fill=effective_pop),alpha=0.2)
 	+ scale_color_manual(values=c("black","blue"))
 	+ scale_fill_manual(values=c("black","blue"))
-	+ facet_grid(matrix ~ reporting,scale="free")
+	+ facet_grid(report_type ~ reporting,scale="free")
 	+ geom_point(data=dat,aes(date,value),color="red",size=0.5)
 	+ xlim(as.Date(c("2026-05-01","2026-10-01")))
 )
@@ -62,16 +63,16 @@ print(gg3 + xlim(as.Date(c("2026-05-01","2026-10-01"))))
 print(gg3 + xlim(as.Date(c("2026-05-01","2026-08-01"))))
 
 print(simdf3
-	|> filter(matrix == "cumIncidence")
+	|> filter(report_type == "cumIncidence")
 	|> filter(date == as.Date("2026-06-15"))
 )
 print(simdf3
-	|> filter(matrix == "cumIncidence")
+	|> filter(report_type == "cumIncidence")
 	|> filter(date == as.Date("2026-10-01"))
 )
 
 newIc <- (simdf3
-	|> filter(matrix == "newIc")
+	|> filter(report_type == "newIc")
 	|> filter(date >= as.Date("2026-05-01"))
 	|> filter(date < as.Date("2026-08-01"))
 	|> filter(type == "lh")
@@ -86,3 +87,4 @@ newIc <- (simdf3
 print(newIc,n=Inf)
 
 csvSave(newIc)
+rdsSave(simdf3)

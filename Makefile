@@ -132,6 +132,8 @@ impmakeR += pps_plots
 combo_pps.Rout: combo_pps.R ll_complex_pps_sims.rds lh_complex_pps_sims.rds hl_complex_pps_sims.rds hh_complex_pps_sims.rds
 	$(pipeR)
 
+compare.Rout: compare.R combo_pps.rds compare.csv
+	$(pipeR)
 
 ######################################################################
 
