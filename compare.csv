@@ -1,0 +1,5 @@
+source, pub_date, report_date, report_type, report_value, report_lwr, report_upr
+LSTHM, 2026-06-16, 2026-06-16, cumInc, NA, 2321, 8011
+SPI-M, 2026-06-21, 2026-05-21, cumInc, NA, 400, 2400
+CDC, 2025-06-05, 2026-08-22, cumInc, NA, 20000,1000000
+Imperial, 2026-06-09, 2026-05-27, cumInc, 451, 396, 511
