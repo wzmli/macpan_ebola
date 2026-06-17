@@ -1,24 +1,27 @@
 library(tidyverse);theme_set(theme_bw())
 library(shellpipes)
+startGraphics(width=8,height=6)
 
 dd <- (bind_rows(rdsReadList()))
 firstdate <- as.Date("2026-03-01")
-nudge <- 2
+nudge <- 5
 
 simdf <- (dd
 	|> mutate(date = firstdate + time - 1 + nudge)
+	|> mutate(date = ifelse(matrix == "cumDc", date + 3, date))
 #	|> rowwise()
 #	|> mutate(value = rpois(lambda=value,n=1))
 )
 
 simdf$value2 <- rpois(lambda=simdf$value,n=length(simdf$value))
-simdf$value2 <- pmax(rnorm(mean=simdf$value,sd=5,n=length(simdf$value)),0)
+simdf$value2 <- pmax(rnorm(mean=simdf$value,sd=8,n=length(simdf$value)),0)
 
 dat <- (readRDS("clean.rds")
 	|> select(date, newIc, newDc, cumIc = confirmed_cases, cumDc = confirmed_death)
-	|> pivot_longer(-date,names_to="matrix",values_to = "value")
+	|> pivot_longer(-date,names_to="report_type",values_to = "value")
 )
 
+print(dat,n=Inf)
 
 print(head(simdf))
 
@@ -88,3 +91,40 @@ print(newIc,n=Inf)
 
 csvSave(newIc)
 rdsSave(simdf3)
+
+
+simdf4 <- (simdf3
+	|> filter(reporting == "low")
+	|> mutate(NULL
+		, report_type = ifelse(report_type == "newIc", "Daily new cases", report_type)
+		, report_type = ifelse(report_type == "newDc", "Daily new death", report_type)
+		, report_type = ifelse(report_type == "cumIc", "Cumulative cases", report_type)
+		, report_type = ifelse(report_type == "cumDc", "Cumulative death", report_type)
+	)
+	|> filter(report_type != "cumIncidence")
+	|> filter(date < as.Date("2026-06-30"))
+)
+
+dat2 <- (dat
+	|> mutate(NULL
+		, report_type = ifelse(report_type == "newIc", "Daily new cases", report_type)
+		, report_type = ifelse(report_type == "newDc", "Daily new death", report_type)
+		, report_type = ifelse(report_type == "cumIc", "Cumulative cases", report_type)
+		, report_type = ifelse(report_type == "cumDc", "Cumulative death", report_type)
+	)
+)
+
+
+gg4 <- (ggplot(simdf4, aes(date,med))
+	+ geom_line(aes(color=effective_pop))
+	+ geom_ribbon(aes(ymin=lwr,ymax=upr,fill=effective_pop),alpha=0.2)
+	+ scale_color_manual(values=c("black","blue"))
+	+ scale_fill_manual(values=c("black","blue"))
+	+ facet_wrap(~report_type,scale="free")
+	+ geom_point(data=dat2,aes(date,value),color="red",size=0.5)
+	+ xlim(as.Date(c("2026-05-01","2026-06-30")))
+	+ labs(color='Proportion of population at risk',fill='Proportion of population at risk')
+	+ theme(legend.position="bottom")
+)
+
+print(gg4)

@@ -25,6 +25,7 @@ firstdat <- data.frame(
 
 calibdat <- (bind_rows(firstdat,dat)
 	|> mutate(time = as.numeric(date - min(date))+1)
+##	|> filter(date < as.Date("2026-06-16"))  ## 
 	|> select(-date)
 	|> pivot_longer(-time,names_to = "matrix", values_to = "value")
 	|> filter(!is.na(value))
