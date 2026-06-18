@@ -75,16 +75,13 @@ SEIRDB_prop_spec.Rout: SEIRDB_prop_spec.R SEIRDB.spec.rds SEIRDB_flows.rda
 SEIRDB_sims.Rout: SEIRDB_sims.R SEIRDB_prop_spec.rds SEIRDB_flows.rda
 	$(pipeR)
 
-complex_detsims.Rout: complex_detsims.R complex_prop_spec.rds complex_flows.rda
-	$(pipeR)
-
-complex_simplots.Rout: complex_simplots.R complex_sims.rds clean.rds
+SEIRDB_simplots.Rout: SEIRDB_simplots.R SEIRDB_sims.rds clean.rds
 	$(pipeR)
 
 complex_detsimplots.Rout: complex_detsimplots.R complex_detsims.rds clean.rds
 	$(pipeR)
 
-complex_priors.Rout: complex_priors.R
+base_priors.Rout: SEIRDB_priors.R
 	$(pipeR)
 
 ll_priors.Rout: ll_priors.R
@@ -99,12 +96,13 @@ hl_priors.Rout: hl_priors.R
 hh_priors.Rout: hh_priors.R
 	$(pipeR)
 
-impmakeR += complex_calibrate
-# ll_complex_calibrate.Rout: complex_calibrate.R
-# lh_complex_calibrate.Rout:
-# hl_complex_calibrate.Rout:
-# hh_complex_calibrate.Rout:
-%_complex_calibrate.Rout: complex_calibrate.R complex_prop_spec.rds complex_flows.rda clean.rds %_priors.rda
+impmakeR += SEIRDB_calibrate
+# base_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R
+# ll_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R
+# lh_SEIRDB_calibrate.Rout:
+# hl_SEIRDB_calibrate.Rout:
+# hh_SEIRDB_calibrate.Rout:
+%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda clean.rds %_priors.rda
 	$(pipeR)
 
 impmakeR += pps
@@ -112,7 +110,7 @@ impmakeR += pps
 # lh_complex_pps.Rout:
 # hl_complex_pps.Rout:
 # hh_complex_pps.Rout:
-%_complex_pps.Rout: pps.R %_complex_calibrate.rds
+%_complex_pps.Rout: pps.R %_SEIRDB_calibrate.rds
 	$(pipeR)
 
 impmakeR += pps_sims
