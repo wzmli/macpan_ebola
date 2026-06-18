@@ -51,7 +51,7 @@ priors <- list(log_beta_I = get_prior(log)(prior_range[["beta_I"]])
 	, logit_prop_Dc = get_prior(qlogis)(prior_range[["prop_Dc"]])
 )
 
-newspec <- mp_tmb_update(rdsRead("complex_prop_spec")
+newspec <- mp_tmb_update(rdsRead("SEIRDB_prop_spec")
 	, default = list(alpha = 0.1
 		)
 )
