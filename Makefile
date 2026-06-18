@@ -63,16 +63,16 @@ SEIRD_simplots.Rout: SEIRD_simplots.R SEIRD_sims.rds clean.rds
 
 ######################################################################
 
-complex_flows.Rout: complex_flows.R 
+SEIRDB_flows.Rout: SEIRDB_flows.R 
 	$(pipeR)
 
-complex_spec.Rout: spec.R complex_flows.rda
+SEIRDB.spec.Rout: spec.R SEIRDB_flows.rda
 	$(pipeR)
 
-complex_prop_spec.Rout: complex_prop_spec.R complex_spec.rds complex_flows.rda
+SEIRDB_prop_spec.Rout: SEIRDB_prop_spec.R SEIRDB.spec.rds SEIRDB_flows.rda
 	$(pipeR)
 
-complex_sims.Rout: complex_sims.R complex_prop_spec.rds complex_flows.rda
+SEIRDB_sims.Rout: SEIRDB_sims.R SEIRDB_prop_spec.rds SEIRDB_flows.rda
 	$(pipeR)
 
 complex_detsims.Rout: complex_detsims.R complex_prop_spec.rds complex_flows.rda

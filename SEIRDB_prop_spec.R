@@ -22,12 +22,5 @@ prop_spec = mp_tmb_insert(spec
 	, phase = "during"
 )
 
-#prop_spec = mp_tmb_insert(prop_spec
-#	, expression = list(prop_Is = 0.2
-#		, prop_Ds = 0.05
-#	)
-#	, phase = "default"
-#)
-
 rdsSave(prop_spec)
 
