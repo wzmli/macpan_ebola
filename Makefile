@@ -36,24 +36,26 @@ read.Rout: ebola_2026/read.R ebola_2026/drc_sitrep.csv
 clean.Rout: clean.R read.rds
 	$(pipeR)
 
-flows.Rout: flows.R 
+SEIRD_flows.Rout: SEIRD_flows.R 
 	$(pipeR)
 
-spec.Rout: spec.R flows.rda
+impmakeR += spec
+# SEIRD.spec.Rout: spec.R
+%.spec.Rout: spec.R SEIRD_flows.rda
 	$(pipeR)
 
-prop_spec.Rout: prop_spec.R spec.rds flows.rda
+SEIRD_prop_spec.Rout: SEIRD_prop_spec.R SEIRD.spec.rds SEIRD_flows.rda
 	$(pipeR)
 
 ## convolution (Currently not using)
 convo_spec.Rout: convo_spec.R spec.rds flows.rda
 	$(pipeR)
 
-prop_sims.Rout: sims.R prop_spec.rds flows.rda
+SEIRD_sims.Rout: SEIRD_sims.R SEIRD_prop_spec.rds SEIRD_flows.rda
 	$(pipeR)
 
 ## prop_simplots.Rout: sims.R flows.R
-prop_simplots.Rout: simplots.R prop_sims.rds clean.rds 
+SEIRD_simplots.Rout: SEIRD_simplots.R SEIRD_sims.rds clean.rds 
 	$(pipeR)
 
 ## ebola1.jpg ebola2.jpg

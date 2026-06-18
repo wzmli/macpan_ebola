@@ -15,7 +15,7 @@ dat_offset=95
 #dat_offset=70
 
 zeroDate <- min(dat$date)-dat_offset
-cutdate <- as.Date("2026-06-15")
+cutdate <- as.Date("2026-07-15")
 
 hackdat <- (dat
 	|> mutate(time = date - min(date) + dat_offset
@@ -32,7 +32,7 @@ hackdat <- (dat
 	|> filter(newDate <= cutdate)
 )
 
-case_offset <- 15
+case_offset <- 5
 
 hacksims <- (bind_rows(sims)
 	|> mutate(time = ifelse(matrix %in% c("cumIs","newIs","cumIc","newIc","cumIncidence","Incidence"),time + case_offset, time)
