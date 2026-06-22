@@ -4,7 +4,6 @@ library(shellpipes)
 
 cal <- rdsRead()
 
-
 param_est <- mp_tmb_coef(cal, back_transform = FALSE)
 
 param_vec <- param_est[["estimate"]]

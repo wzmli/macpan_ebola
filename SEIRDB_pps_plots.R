@@ -6,7 +6,7 @@ library(shellpipes)
 
 
 firstdate <- as.Date("2026-03-01")
-nudge <- 5
+nudge <- 8
 
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
@@ -47,3 +47,13 @@ gg2 <-(ggplot(simdf2, aes(date,med))
 )
 
 print(gg2)
+
+outdat <- (simdf2
+	|> filter(matrix %in% c("newIc","Incidence","cumIc"))
+	|> filter(date < as.Date("2026-07-31"))
+	|> select(date,matrix,med)
+	|> pivot_wider(names_from=matrix,values_from=med)
+)
+
+print(outdat,n=Inf)
+csvSave(outdat)

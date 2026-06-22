@@ -106,6 +106,7 @@ impmakeR += SEIRDB_calibrate
 	$(pipeR)
 
 impmakeR += pps
+# base_SEIRDB_pps.Rout: SEIRDB_pps.R
 # ll_SEIRDB_pps.Rout: 
 # lh_SEIRDB_pps.Rout:
 # hl_SEIRDB_pps.Rout:
@@ -114,19 +115,21 @@ impmakeR += pps
 	$(pipeR)
 
 impmakeR += pps_sims
-# ll_SEIRDB_pps_sims.Rout: pps_sims.R
+# base_SEIRDB_pps_sims.Rout: SEIRDB_pps_sims.R
+# ll_SEIRDB_pps_sims.Rout: SEIRDB_pps_sims.R
 # lh_SEIRDB_pps_sims.Rout:
 # hl_SEIRDB_pps_sims.Rout:
 # hh_SEIRDB_pps_sims.Rout:
-%_SEIRDB_pps_sims.Rout: pps_sims.R %_SEIRDB_pps.rda
+%_SEIRDB_pps_sims.Rout: SEIRDB_pps_sims.R %_SEIRDB_pps.rda
 	$(pipeR)
 
 impmakeR += pps_plots
-# ll_complex_pps_plots.Rout: pps_plots.R
-# lh_complex_pps_plots.Rout:
-# hl_complex_pps_plots.Rout:
-# hh_complex_pps_plots.Rout:
-%_complex_pps_plots.Rout: pps_plots.R %_complex_pps_sims.rds clean.rds
+# base_SEIRDB_pps_plots.Rout: SEIRDB_pps_plots.R
+# ll_SEIRDB_pps_plots.Rout: pps_plots.R
+# lh_SEIRDB_pps_plots.Rout:
+# hl_SEIRDB_pps_plots.Rout:
+# hh_SEIRDB_pps_plots.Rout:
+%_SEIRDB_pps_plots.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds clean.rds
 	$(pipeR)
 
 combo_pps.Rout: combo_pps.R ll_complex_pps_sims.rds lh_complex_pps_sims.rds hl_complex_pps_sims.rds hh_complex_pps_sims.rds
