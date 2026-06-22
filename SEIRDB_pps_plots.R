@@ -6,7 +6,7 @@ library(shellpipes)
 
 
 firstdate <- as.Date("2026-03-01")
-nudge <- 8
+nudge <- 5
 
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
@@ -18,6 +18,7 @@ dat <- (rdsRead("clean")
 	|> pivot_longer(-date,names_to="matrix",values_to = "value")
 )
 
+simdf$value <- pmax(rnorm(mean=simdf$value,sd=8,n=length(simdf$value)),0)
 
 print(head(simdf))
 
@@ -47,6 +48,9 @@ gg2 <-(ggplot(simdf2, aes(date,med))
 )
 
 print(gg2)
+print(gg2
+	+ xlim(as.Date(c("2026-05-01","2026-06-30")))
+)
 
 outdat <- (simdf2
 	|> filter(matrix %in% c("newIc","Incidence","cumIc"))

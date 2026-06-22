@@ -8,7 +8,7 @@ loadEnvironments()
 
 time_steps <- 300
 firstdate <- as.Date("2026-03-01")
-
+trimdate <- as.Date("2026-06-20")
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")
@@ -25,7 +25,7 @@ firstdat <- data.frame(
 
 calibdat <- (bind_rows(firstdat,dat)
 	|> mutate(time = as.numeric(date - min(date))+1)
-##	|> filter(date < as.Date("2026-06-16"))  ## 
+	|> filter(date <= trimdate)  ## 
 	|> select(-date)
 	|> pivot_longer(-time,names_to = "matrix", values_to = "value")
 	|> filter(!is.na(value))
