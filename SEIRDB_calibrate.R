@@ -9,7 +9,7 @@ loadEnvironments()
 time_steps <- 300
 firstdate <- as.Date("2026-03-01")
 trimdate <- as.Date("2026-06-20")
-trimdate <- as.Date("2026-06-22")
+trimdate <- as.Date("2026-06-25")
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")

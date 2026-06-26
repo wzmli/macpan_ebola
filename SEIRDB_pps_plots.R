@@ -8,7 +8,7 @@ startGraphics(width=6,height=4)
 
 firstdate <- as.Date("2026-03-01")
 nudge <- 5
-nudge <- 5
+nudge <- 7
 
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
