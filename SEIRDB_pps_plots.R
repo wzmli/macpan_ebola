@@ -81,7 +81,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.2)
 	+ facet_wrap(~report_type,scale="free")
 	+ geom_point(data=dat,aes(date,value),color="red",size=0.8)
-	+ xlim(as.Date(c("2026-05-01","2026-07-15")))
+	+ xlim(as.Date(c("2026-05-15","2026-07-16")))
 	+ theme(legend.position="bottom")
 )
 
