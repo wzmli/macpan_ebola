@@ -11,9 +11,11 @@ firstdate <- as.Date("2026-02-01")
 # firstdate <- as.Date("2026-04-15")
 nudge <- 10
 # nudge <- 6
+extra_nudge <- 4
 
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
+	|> mutate(date = ifelse(matrix %in% c("newDc","cumDc"), date + extra_nudge, date))
 )
 
 
