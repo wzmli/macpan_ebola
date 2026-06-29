@@ -7,9 +7,11 @@ startGraphics(width=8,height=4)
 loadEnvironments()
 
 time_steps <- 300
-firstdate <- as.Date("2026-03-01")
-trimdate <- as.Date("2026-06-20")
-trimdate <- as.Date("2026-06-25")
+firstdate <- as.Date("2026-02-01")
+trimstart <- as.Date("2026-06-15")
+trimstart <- as.Date("2026-05-15")
+trimend <- as.Date("2026-06-20")
+trimend <- as.Date("2026-06-28")
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")
@@ -26,12 +28,14 @@ firstdat <- data.frame(
 
 calibdat <- (bind_rows(firstdat,dat)
 	|> mutate(time = as.numeric(date - min(date))+1)
-	|> filter(date <= trimdate)  ## 
+#	|> filter(date >= trimstart)
+	|> filter(date <= trimend)  ## 
 	|> select(-date)
 	|> pivot_longer(-time,names_to = "matrix", values_to = "value")
 	|> filter(!is.na(value))
 )
 
+print(calibdat, n=Inf)
 ## define priors
 
 get_prior = function(trans) function(rng) {
@@ -46,14 +50,14 @@ print(get_prior(log)(prior_range[["beta_I"]]))
 
 priors <- list(log_beta_I = get_prior(log)(prior_range[["beta_I"]])
 	, log_beta_D = get_prior(log)(prior_range[["beta_D"]])
-	, log_effS = get_prior(log)(prior_range[["effS"]])
+#	, log_effS = get_prior(log)(prior_range[["effS"]])
 	, logit_mort = get_prior(qlogis)(prior_range[["mort"]])
 	, logit_prop_Ic = get_prior(qlogis)(prior_range[["prop_Ic"]])
 	, logit_prop_Dc = get_prior(qlogis)(prior_range[["prop_Dc"]])
 )
 
 newspec <- mp_tmb_update(rdsRead("SEIRDB_prop_spec")
-	, default = list(alpha = 0.1
+	, default = list(effS = 0.00055
 		)
 )
 

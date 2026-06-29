@@ -5,8 +5,8 @@ library(shellpipes)
 loadEnvironments()
 spec <- rdsRead("SEIRDB_prop_spec")
 
-beta_I_changepoints <- c(1, 30, 50)
-beta_I_values <- c(0.2, 0.4, 0.3)
+beta_I_changepoints <- c(1,25,35,45)
+beta_I_values <- c(0.02, 0.2, 0.28,0.3)
 
 expr <- list(beta_I ~ time_var(beta_I_values, beta_I_changepoints))
 
@@ -20,9 +20,9 @@ newspec <- (spec
 )
 
 time_steps <- 300
-firstdate <- as.Date("2026-03-01")
+firstdate <- as.Date("2026-05-01")
 trimdate <- as.Date("2026-06-20")
-trimdate <- as.Date("2026-06-25")
+trimdate <- as.Date("2026-06-28")
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")
@@ -31,7 +31,7 @@ dat <- (rdsRead("clean")
 
 firstdat <- data.frame(
 	date = firstdate
-	, newIc = 1
+	, newIc = NA
 	, newDc = NA
 )
 
@@ -57,7 +57,7 @@ print(get_prior(log)(prior_range[["beta_I"]]))
 
 priors <- list(
 #	log_beta_I = get_prior(log)(prior_range[["beta_I"]])
-	log_beta_I_values = mp_norm(0,log(1))
+	log_beta_I_values = mp_norm(0,log(0.1))
 	, log_beta_D = get_prior(log)(prior_range[["beta_D"]])
 	, log_effS = get_prior(log)(prior_range[["effS"]])
 	, logit_mort = get_prior(qlogis)(prior_range[["mort"]])
@@ -95,10 +95,16 @@ print(cal_est)
 
 fitted_data = (mp_trajectory_sd(calib, conf.int = TRUE)
 	|> mutate(date = time + firstdate)
+#	|> filter(date > as.Date("2026-05-15"))
+	|> filter(date < as.Date("2026-07-15"))
 )
 
 calibdat <- (calibdat
 	|> mutate(date = firstdate + time)
+)
+
+interceptdat <- (fitted_data
+	|> filter(time %in% beta_I_changepoints)
 )
 
 gg <- (ggplot(data = (fitted_data ))
@@ -107,6 +113,7 @@ gg <- (ggplot(data = (fitted_data ))
     , alpha = 0.2
     , colour = "red"
   )
+  + geom_vline(data=interceptdat,aes(xintercept = date))
   + facet_wrap(~matrix,scale="free")
   + geom_point(data=calibdat,aes(date, value))
 )

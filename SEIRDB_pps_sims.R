@@ -10,7 +10,7 @@ simpps <- function(x){
 	mp_trajectory_par(cal
 	, list(log_beta_I=theta_samp[x,"log_beta_I"]
 		, log_beta_D = theta_samp[x,"log_beta_D"]
-		, log_effS = theta_samp[x,"log_effS"]
+#		, log_effS = theta_samp[x,"log_effS"]
 		, logit_mort = theta_samp[x,"logit_mort"]
 		, logit_prop_Ic = theta_samp[x,"logit_prop_Ic"]
 		, logit_prop_Dc = theta_samp[x,"logit_prop_Dc"]
