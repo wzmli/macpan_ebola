@@ -2,6 +2,7 @@ library(macpan2)
 library(bbmle)
 library(tidyverse)
 library(ggplot2);theme_set(theme_bw())
+library(zoo)
 library(shellpipes)
 startGraphics(width=6,height=4)
 
@@ -9,9 +10,9 @@ startGraphics(width=6,height=4)
 firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
 # firstdate <- as.Date("2026-04-15")
-nudge <- 10
+nudge <- 9
 # nudge <- 6
-extra_nudge <- 4
+extra_nudge <- 2
 
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
@@ -71,7 +72,7 @@ simdf3 <- (simdf2
 		, report_type = ifelse(report_type == "cumIc", "Cumulative cases", report_type)
 		, report_type = ifelse(report_type == "cumDc", "Cumulative death", report_type)
 	)
-	|> filter(date <= as.Date("2026-07-15"))
+	|> filter(date <= as.Date("2026-07-17"))
 	|> filter(report_type %in% c("Cumulative cases","Cumulative death","Daily new cases", "Daily new death"))
 )
 
@@ -81,7 +82,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.2)
 	+ facet_wrap(~report_type,scale="free")
 	+ geom_point(data=dat,aes(date,value),color="red",size=0.8)
-	+ xlim(as.Date(c("2026-05-15","2026-07-16")))
+	+ xlim(as.Date(c("2026-05-15","2026-07-17")))
 	+ theme(legend.position="bottom")
 )
 
@@ -92,6 +93,7 @@ outdat <- (simdf2
 	|> filter(date < as.Date("2026-07-31"))
 	|> select(date,matrix,med)
 	|> pivot_wider(names_from=matrix,values_from=med)
+	|> mutate(date = as.Date(date))
 )
 
 print(outdat,n=Inf)

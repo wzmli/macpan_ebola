@@ -11,7 +11,7 @@ firstdate <- as.Date("2026-02-01")
 trimstart <- as.Date("2026-06-15")
 trimstart <- as.Date("2026-05-15")
 trimend <- as.Date("2026-06-20")
-trimend <- as.Date("2026-07-01")
+trimend <- as.Date("2026-07-05")
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")
@@ -57,7 +57,9 @@ priors <- list(log_beta_I = get_prior(log)(prior_range[["beta_I"]])
 )
 
 newspec <- mp_tmb_update(rdsRead("SEIRDB_prop_spec")
-	, default = list(effS = 0.00055
+#	, default = list(effS = 0.00055
+#	, default = list(effS = 0.00065
+	, default = list(effS = 0.0008
 		)
 )
 
