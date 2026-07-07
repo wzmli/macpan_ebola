@@ -72,7 +72,7 @@ simdf3 <- (simdf2
 		, report_type = ifelse(report_type == "cumIc", "Cumulative cases", report_type)
 		, report_type = ifelse(report_type == "cumDc", "Cumulative death", report_type)
 	)
-	|> filter(date <= as.Date("2026-07-17"))
+	|> filter(date <= as.Date("2026-07-16"))
 	|> filter(report_type %in% c("Cumulative cases","Cumulative death","Daily new cases", "Daily new death"))
 )
 
@@ -82,7 +82,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.2)
 	+ facet_wrap(~report_type,scale="free")
 	+ geom_point(data=dat,aes(date,value),color="red",size=0.8)
-	+ xlim(as.Date(c("2026-05-15","2026-07-17")))
+	+ xlim(as.Date(c("2026-05-15","2026-07-20")))
 	+ theme(legend.position="bottom")
 )
 

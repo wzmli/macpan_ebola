@@ -11,7 +11,7 @@ firstdate <- as.Date("2026-02-01")
 trimstart <- as.Date("2026-06-15")
 trimstart <- as.Date("2026-05-15")
 trimend <- as.Date("2026-06-20")
-trimend <- as.Date("2026-07-05")
+trimend <- as.Date("2026-07-10")
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")
