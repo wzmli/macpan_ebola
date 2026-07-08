@@ -10,9 +10,9 @@ startGraphics(width=6,height=4)
 firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
 # firstdate <- as.Date("2026-04-15")
-nudge <- 9
+nudge <- 5
 # nudge <- 6
-extra_nudge <- 2
+extra_nudge <- 3
 
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
@@ -31,7 +31,7 @@ dat <- (rdsRead("clean")
 	)
 )
 
-simdf$value <- pmax(rnorm(mean=simdf$value,sd=8,n=length(simdf$value)),0)
+simdf$value <- pmax(rnorm(mean=simdf$value,sd=10,n=length(simdf$value)),0)
 
 print(head(simdf))
 
@@ -72,7 +72,7 @@ simdf3 <- (simdf2
 		, report_type = ifelse(report_type == "cumIc", "Cumulative cases", report_type)
 		, report_type = ifelse(report_type == "cumDc", "Cumulative death", report_type)
 	)
-	|> filter(date <= as.Date("2026-07-16"))
+	|> filter(date <= as.Date("2026-07-31"))
 	|> filter(report_type %in% c("Cumulative cases","Cumulative death","Daily new cases", "Daily new death"))
 )
 
@@ -82,7 +82,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.2)
 	+ facet_wrap(~report_type,scale="free")
 	+ geom_point(data=dat,aes(date,value),color="red",size=0.8)
-	+ xlim(as.Date(c("2026-05-15","2026-07-20")))
+	+ xlim(as.Date(c("2026-05-15","2026-07-31")))
 	+ theme(legend.position="bottom")
 )
 

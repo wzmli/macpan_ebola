@@ -59,7 +59,8 @@ priors <- list(log_beta_I = get_prior(log)(prior_range[["beta_I"]])
 newspec <- mp_tmb_update(rdsRead("SEIRDB_prop_spec")
 #	, default = list(effS = 0.00055
 #	, default = list(effS = 0.00065
-	, default = list(effS = 0.0008
+#	, default = list(effS = 0.001
+	, default = list(effS = 0.0013
 		)
 )
 
