@@ -137,6 +137,12 @@ impmakeR += pps_plots
 %_SEIRDB_pps_plots.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds clean.rds
 	$(pipeR)
 
+
+# base_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R SEIRDB_priors.R
+%_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds clean.rds
+	$(pipeR)
+
+
 combo_pps.Rout: combo_pps.R ll_SEIRDB_pps_sims.rds lh_SEIRDB_pps_sims.rds hl_SEIRDB_pps_sims.rds hh_SEIRDB_pps_sims.rds
 	$(pipeR)
 

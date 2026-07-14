@@ -9,6 +9,7 @@ startGraphics(width=6,height=4)
 
 firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
+fitdate <- as.Date("2026-07-06")
 # firstdate <- as.Date("2026-04-15")
 nudge <- 5
 # nudge <- 6
@@ -31,6 +32,8 @@ dat <- (rdsRead("clean")
 	)
 )
 
+
+
 simdf$value <- pmax(rnorm(mean=simdf$value,sd=10,n=length(simdf$value)),0)
 
 print(head(simdf))
@@ -44,7 +47,24 @@ gg <- (ggplot(filter(simdf,iter<20),aes(date,value))
 
 print(gg)
 
+newcumInc <- (simdf
+	|> select(date,matrix,value,iter)
+	|> filter(matrix == "newIc")
+	|> filter(date > as.Date("2026-04-15"))
+	|> arrange(iter,date)
+	|> group_by(iter)
+	|> mutate(cumval = cumsum(value))
+	|> ungroup()
+	|> transmute(date
+		,matrix = "cumIc"
+		,iter
+		,value=cumval
+	)
+)
+
 simdf2 <- (simdf
+#	|> filter(matrix != "cumIc")
+#	|> bind_rows(newcumInc)
 	|> group_by(date,matrix)
 	|> summarise(NULL
 		, med = quantile(value,prob=0.5)
@@ -62,8 +82,11 @@ gg2 <-(ggplot(simdf2, aes(date,med))
 
 print(gg2)
 print(gg2
-	+ xlim(as.Date(c("2026-05-01","2026-06-30")))
+	+ xlim(as.Date(c("2026-05-01","2026-07-31")))
 )
+
+print(simdf2 |> filter(date == as.Date("2026-07-15")))
+
 
 simdf3 <- (simdf2
 	|> mutate(report_type = matrix
@@ -81,7 +104,9 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_line()
 	+ geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.2)
 	+ facet_wrap(~report_type,scale="free")
-	+ geom_point(data=dat,aes(date,value),color="red",size=0.8)
+	+ geom_point(data=filter(dat,date<=fitdate),aes(date,value),color="black",size=0.8)
+	+ geom_point(data=filter(dat,date>fitdate),aes(date,value),color="red",size=0.8)
+#	+ xlim(as.Date(c("2026-06-01","2026-07-31")))
 	+ xlim(as.Date(c("2026-05-15","2026-07-31")))
 	+ theme(legend.position="bottom")
 )

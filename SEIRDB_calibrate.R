@@ -10,8 +10,8 @@ time_steps <- 300
 firstdate <- as.Date("2026-02-01")
 trimstart <- as.Date("2026-06-15")
 trimstart <- as.Date("2026-05-15")
-trimend <- as.Date("2026-06-20")
-trimend <- as.Date("2026-07-10")
+trimend <- as.Date("2026-07-12")
+trimend <- as.Date("2026-07-06")
 
 ## make a macpan2 dataset for calibration
 dat <- (rdsRead("clean")
@@ -35,7 +35,7 @@ calibdat <- (bind_rows(firstdat,dat)
 	|> filter(!is.na(value))
 )
 
-print(calibdat, n=Inf)
+# print(calibdat, n=Inf)
 ## define priors
 
 get_prior = function(trans) function(rng) {
@@ -60,7 +60,7 @@ newspec <- mp_tmb_update(rdsRead("SEIRDB_prop_spec")
 #	, default = list(effS = 0.00055
 #	, default = list(effS = 0.00065
 #	, default = list(effS = 0.001
-	, default = list(effS = 0.0013
+	, default = list(effS = 0.0015
 		)
 )
 
