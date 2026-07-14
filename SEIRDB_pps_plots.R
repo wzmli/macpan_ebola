@@ -13,7 +13,7 @@ fitdate <- as.Date("2026-07-06")
 # firstdate <- as.Date("2026-04-15")
 nudge <- 5
 # nudge <- 6
-extra_nudge <- 3
+extra_nudge <- 1
 
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
@@ -105,7 +105,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.2)
 	+ facet_wrap(~report_type,scale="free")
 	+ geom_point(data=filter(dat,date<=fitdate),aes(date,value),color="black",size=0.8)
-	+ geom_point(data=filter(dat,date>fitdate),aes(date,value),color="red",size=0.8)
+	+ geom_point(data=filter(dat,date>fitdate),aes(date,value),color="black",size=0.8)
 #	+ xlim(as.Date(c("2026-06-01","2026-07-31")))
 	+ xlim(as.Date(c("2026-05-15","2026-07-31")))
 	+ theme(legend.position="bottom")
