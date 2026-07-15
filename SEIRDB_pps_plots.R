@@ -85,7 +85,7 @@ print(gg2
 	+ xlim(as.Date(c("2026-05-01","2026-07-31")))
 )
 
-print(simdf2 |> filter(date == as.Date("2026-07-15")))
+print(simdf2 |> filter(date == as.Date("2026-07-30")))
 
 
 simdf3 <- (simdf2
@@ -115,7 +115,7 @@ print(gg3)
 
 outdat <- (simdf2
 	|> filter(matrix %in% c("newIc","Incidence","cumIc"))
-	|> filter(date < as.Date("2026-07-31"))
+	|> filter(date < as.Date("2026-08-03"))
 	|> select(date,matrix,med)
 	|> pivot_wider(names_from=matrix,values_from=med)
 	|> mutate(date = as.Date(date))
