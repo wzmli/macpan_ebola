@@ -11,9 +11,13 @@ firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
 fitdate <- as.Date("2026-07-12")
 # firstdate <- as.Date("2026-04-15")
-nudge <- 5
+nudge <- 4
 # nudge <- 6
 extra_nudge <- 1
+
+if(pipeStar() == "low"){
+extra_nudge <- 2
+}
 
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
@@ -94,8 +98,9 @@ simdf3 <- (simdf2
 		, report_type = ifelse(report_type == "newDc", "Daily new death", report_type)
 		, report_type = ifelse(report_type == "cumIc", "Cumulative cases", report_type)
 		, report_type = ifelse(report_type == "cumDc", "Cumulative death", report_type)
+		, reporting = pipeStar()
 	)
-	|> filter(date <= as.Date("2026-07-31"))
+	|> filter(date <= as.Date("2026-09-02"))
 	|> filter(report_type %in% c("Cumulative cases","Cumulative death","Daily new cases", "Daily new death"))
 )
 
@@ -107,7 +112,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_point(data=filter(dat,date<=fitdate),aes(date,value),color="black",size=0.8)
 	+ geom_point(data=filter(dat,date>fitdate),aes(date,value),color="red",size=0.8)
 #	+ xlim(as.Date(c("2026-06-01","2026-07-31")))
-	+ xlim(as.Date(c("2026-05-15","2026-07-31")))
+	+ xlim(as.Date(c("2026-05-15","2026-09-02")))
 	+ theme(legend.position="bottom")
 )
 
@@ -123,5 +128,5 @@ outdat <- (simdf2
 
 print(outdat,n=Inf)
 csvSave(outdat)
-
+rdsSave(simdf3)
 
