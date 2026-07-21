@@ -9,7 +9,7 @@ startGraphics(width=6,height=4)
 
 firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
-fitdate <- as.Date("2026-07-12")
+fitdate <- as.Date("2026-07-19")
 # firstdate <- as.Date("2026-04-15")
 nudge <- 4
 # nudge <- 6
@@ -112,7 +112,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_point(data=filter(dat,date<=fitdate),aes(date,value),color="black",size=0.8)
 	+ geom_point(data=filter(dat,date>fitdate),aes(date,value),color="red",size=0.8)
 #	+ xlim(as.Date(c("2026-06-01","2026-07-31")))
-	+ xlim(as.Date(c("2026-05-15","2026-09-02")))
+	+ xlim(as.Date(c("2026-05-15","2026-08-03")))
 	+ theme(legend.position="bottom")
 )
 
