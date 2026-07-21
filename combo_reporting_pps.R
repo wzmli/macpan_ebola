@@ -25,7 +25,7 @@ gg3 <- (ggplot(dd, aes(date,med))
 	+ geom_point(data=filter(dat,date<=fitdate),aes(date,value),color="black",size=0.8)
 	+ geom_point(data=filter(dat,date>fitdate),aes(date,value),color="red",size=0.8)
 #	+ xlim(as.Date(c("2026-06-01","2026-07-31")))
-	+ xlim(as.Date(c("2026-05-15","2026-08-02")))
+	+ xlim(as.Date(c("2026-05-15","2026-09-02")))
 	+ theme(legend.position="bottom")
 )
 
