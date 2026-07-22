@@ -19,6 +19,10 @@ if(pipeStar() == "low"){
 extra_nudge <- 2
 }
 
+if(pipeStar() == "base"){
+extra_nudge <- 2
+}
+
 simdf <- (rdsRead("sims")
 	|> mutate(date = firstdate + time - 1 + nudge)
 	|> mutate(date = ifelse(matrix %in% c("newDc","cumDc"), date + extra_nudge, date))
