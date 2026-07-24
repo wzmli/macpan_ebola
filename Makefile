@@ -36,6 +36,9 @@ read.Rout: ebola_2026/read.R ebola_2026/drc_sitrep.csv
 clean.Rout: clean.R read.rds
 	$(pipeR)
 
+correction.Rout: correction.R clean.rds
+	$(pipeR)
+
 SEIRD_flows.Rout: SEIRD_flows.R 
 	$(pipeR)
 
