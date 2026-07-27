@@ -12,6 +12,8 @@ dat <- (rdsRead()
 		, cumulative_death = confirmed_death
 		, new_cases = newIc
 		, new_death = newDc
+		, fillnewIc = ifelse(is.na(new_cases),0,new_cases)
+		, fillnewDc = ifelse(is.na(new_death),0,new_death)
 	)
 )
 
@@ -28,22 +30,22 @@ distribute_death <- (dat
 )
 
 dat2 <- (dat
-	|> mutate(new_cases = ifelse(date == correction_date, NA, new_cases)
-		, new_death = ifelse(date == correction_date, NA, new_death)
+	|> mutate(new_cases = ifelse(date == correction_date, NA, round(new_cases))
+		, new_death = ifelse(date == correction_date, NA, round(new_death))
 	)
+	|> select(-c(fillnewIc,fillnewDc))
 )
+
 
 olddat <- (dat
 	|> filter(date < correction_date)
 	|> mutate(NULL
-		, fillnewIc = ifelse(is.na(new_cases),0,new_cases)
 		, propI = new_cases/sum(fillnewIc)
 		, propI = ifelse(is.na(propI),0,propI)
-		, cnew_cases = round(fillnewIc + propI*distribute_cases)
-		, fillnewDc = ifelse(is.na(new_death),0,new_death)
+		, cnew_cases = ceiling(fillnewIc + propI*distribute_cases)
 		, propD = new_death/sum(fillnewDc)
 		, propD = ifelse(is.na(propD),0,propD)
-		, cnew_death = round(fillnewDc + propD*distribute_death)
+		, cnew_death = ceiling(fillnewDc + propD*distribute_death)
 	)
 	|> transmute(NULL
 		, date
@@ -57,9 +59,35 @@ olddat <- (dat
 
 print(olddat,n=Inf)
 
+olddat2 <- (dat
+	|> filter(date < correction_date)
+	|> filter(date >= as.Date("2026-07-01"))
+	|> mutate(NULL
+		, propI = new_cases/sum(fillnewIc)
+		, propI = ifelse(is.na(propI),0,propI)
+		, cnew_cases = ceiling(fillnewIc + propI*distribute_cases)
+		, propD = new_death/sum(fillnewDc)
+		, propD = ifelse(is.na(propD),0,propD)
+		, cnew_death = ceiling(fillnewDc + propD*distribute_death)
+	)
+	|> bind_rows(filter(dat,between(date, min(date)-1, as.Date("2026-07-02"))))
+	|> arrange(date)
+	|> transmute(NULL
+		, date
+		, cnew_cases = ifelse(is.na(cnew_cases),fillnewIc,cnew_cases)
+		, cnew_death = ifelse(is.na(cnew_death),fillnewDc,cnew_death)
+		, cumulative_cases = cumsum(cnew_cases)
+		, cumulative_death = cumsum(cnew_death)
+		, new_cases = cnew_cases
+		, new_death = cnew_death
+	)
+	|> select(-c(cnew_cases,cnew_death))
+)
+
 gg <- (ggplot(data=pivot_longer(dat2, -date, names_to = "type",values_to = "value"), aes(date,value))
-	+ geom_point()
-	+ geom_point(data=pivot_longer(olddat, -date, names_to = "type",values_to = "value"), aes(date,value),color="red")
+	+ geom_point(data=pivot_longer(olddat2, -date, names_to = "type",values_to = "value"), aes(date,value),color="green", size=1)
+	+ geom_point(size=1)
+	+ geom_point(data=pivot_longer(olddat, -date, names_to = "type",values_to = "value"), aes(date,value),color="red",size=1)
 	+ facet_wrap(~type, scale="free")
 )
 
