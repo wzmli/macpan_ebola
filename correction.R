@@ -97,6 +97,10 @@ mergedat <- (dat
 	|> filter(date >= correction_date)
 	|> bind_rows(olddat)
 	|> arrange(date)
+	|> transmute(date
+		, newIc = new_cases
+		, newDc = new_death
+	)
 )
 
 print(mergedat, n=Inf)
