@@ -64,3 +64,13 @@ gg <- (ggplot(data=pivot_longer(dat2, -date, names_to = "type",values_to = "valu
 )
 
 print(gg)
+
+mergedat <- (dat
+	|> filter(date >= correction_date)
+	|> bind_rows(olddat)
+	|> arrange(date)
+)
+
+print(mergedat, n=Inf)
+
+rdsSave(mergedat)

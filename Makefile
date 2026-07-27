@@ -39,6 +39,9 @@ clean.Rout: clean.R read.rds
 correction.Rout: correction.R clean.rds
 	$(pipeR)
 
+doubling.Rout: doubling.R correction.rds
+	$(pipeR)
+
 SEIRD_flows.Rout: SEIRD_flows.R 
 	$(pipeR)
 
