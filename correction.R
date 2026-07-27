@@ -39,11 +39,11 @@ olddat <- (dat
 		, fillnewIc = ifelse(is.na(new_cases),0,new_cases)
 		, propI = new_cases/sum(fillnewIc)
 		, propI = ifelse(is.na(propI),0,propI)
-		, cnew_cases = fillnewIc + propI*distribute_cases
+		, cnew_cases = round(fillnewIc + propI*distribute_cases)
 		, fillnewDc = ifelse(is.na(new_death),0,new_death)
 		, propD = new_death/sum(fillnewDc)
 		, propD = ifelse(is.na(propD),0,propD)
-		, cnew_death = fillnewDc + propD*distribute_death
+		, cnew_death = round(fillnewDc + propD*distribute_death)
 	)
 	|> transmute(NULL
 		, date
