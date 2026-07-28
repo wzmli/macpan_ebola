@@ -10,12 +10,12 @@ time_steps <- 300
 firstdate <- as.Date("2026-02-01")
 trimstart <- as.Date("2026-06-15")
 trimstart <- as.Date("2026-05-15")
-trimend <- as.Date("2026-07-26")
+trimend <- as.Date("2026-07-20")
 #trimend <- as.Date("2026-07-06")
 
 ## make a macpan2 dataset for calibration
-#dat <- (rdsRead("clean")
-dat <- (rdsRead("correction")
+dat <- (rdsRead("clean")
+#dat <- (rdsRead("correction")
 	|> select(date, newIc, newDc, cumIc = confirmed_cases, cumDc=confirmed_death)
 )
 

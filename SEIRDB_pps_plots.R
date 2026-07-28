@@ -9,9 +9,9 @@ startGraphics(width=6,height=4)
 
 firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
-fitdate <- as.Date("2026-07-25")
+fitdate <- as.Date("2026-07-20")
 # firstdate <- as.Date("2026-04-15")
-nudge <- 3
+nudge <- 4
 # nudge <- 6
 extra_nudge <- 0
 
@@ -20,7 +20,7 @@ extra_nudge <- 2
 }
 
 if(pipeStar() == "base"){
-extra_nudge <- 0
+extra_nudge <- 2
 }
 
 simdf <- (rdsRead("sims")
@@ -29,7 +29,8 @@ simdf <- (rdsRead("sims")
 )
 
 
-dat <- (rdsRead("correction")
+#dat <- (rdsRead("correction")
+dat <- (rdsRead("clean")
 	|> select(date, newIc, newDc, cumIc = confirmed_cases, cumDc = confirmed_death)
 	|> pivot_longer(-date,names_to="matrix",values_to = "value")
 	|> mutate(report_type = matrix
@@ -116,7 +117,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 	+ geom_point(data=filter(dat,date<=fitdate),aes(date,value),color="black",size=0.8)
 	+ geom_point(data=filter(dat,date>fitdate),aes(date,value),color="red",size=0.8)
 #	+ xlim(as.Date(c("2026-06-01","2026-07-31")))
-	+ xlim(as.Date(c("2026-05-15","2026-08-20")))
+	+ xlim(as.Date(c("2026-05-15","2026-08-03")))
 	+ theme(legend.position="bottom")
 )
 
