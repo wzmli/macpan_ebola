@@ -10,7 +10,8 @@ time_steps <- 300
 firstdate <- as.Date("2026-02-01")
 trimstart <- as.Date("2026-06-15")
 trimstart <- as.Date("2026-05-15")
-trimend <- as.Date("2026-07-23")
+trimend <- as.Date("2026-07-26")
+# trimend <- as.Date("2026-07-16")
 #trimend <- as.Date("2026-07-06")
 
 ## make a macpan2 dataset for calibration

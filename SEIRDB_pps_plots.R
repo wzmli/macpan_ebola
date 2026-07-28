@@ -9,9 +9,9 @@ startGraphics(width=6,height=4)
 
 firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
-fitdate <- as.Date("2026-07-23")
+fitdate <- as.Date("2026-07-26")
 # firstdate <- as.Date("2026-04-15")
-nudge <- 4
+nudge <- 3
 # nudge <- 6
 extra_nudge <- 0
 
@@ -20,7 +20,7 @@ extra_nudge <- 2
 }
 
 if(pipeStar() == "base"){
-extra_nudge <- 0
+extra_nudge <- 2
 }
 
 simdf <- (rdsRead("sims")
@@ -43,7 +43,7 @@ dat <- (rdsRead("correction")
 
 print(dat,n=Inf)
 
-simdf$value <- pmax(rnorm(mean=simdf$value,sd=10,n=length(simdf$value)),0)
+simdf$value <- pmax(rnorm(mean=simdf$value,sd=15,n=length(simdf$value)),0)
 
 print(head(simdf))
 
@@ -126,7 +126,7 @@ print(gg3)
 
 outdat <- (simdf2
 	|> filter(matrix %in% c("newIc","Incidence","cumIc"))
-	|> filter(date < as.Date("2026-08-15"))
+	|> filter(date < as.Date("2026-08-30"))
 	|> select(date,matrix,med)
 	|> pivot_wider(names_from=matrix,values_from=med)
 	|> mutate(date = as.Date(date))
