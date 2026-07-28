@@ -119,8 +119,9 @@ impmakeR += SEIRDB_calibrate
 # lh_SEIRDB_calibrate.Rout:
 # hl_SEIRDB_calibrate.Rout:
 # hh_SEIRDB_calibrate.Rout:
-#%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda correction.rds %_priors.rda
-%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda clean.rds %_priors.rda
+%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda correction.rds %_priors.rda
+	$(pipeR)
+#%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda clean.rds %_priors.rda
 	$(pipeR)
 
 impmakeR += SEIRDB_timevar_calibrate
