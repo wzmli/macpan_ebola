@@ -29,6 +29,8 @@ distribute_death <- (dat
 	|> pull(new_death)
 )
 
+print(distribute_death)
+
 dat2 <- (dat
 	|> mutate(new_cases = ifelse(date == correction_date, NA, round(new_cases))
 		, new_death = ifelse(date == correction_date, NA, round(new_death))
@@ -42,10 +44,11 @@ olddat <- (dat
 	|> mutate(NULL
 		, propI = new_cases/sum(fillnewIc)
 		, propI = ifelse(is.na(propI),0,propI)
-		, cnew_cases = ceiling(fillnewIc + propI*distribute_cases)
+		, cnew_cases = round(fillnewIc + propI*distribute_cases)
 		, propD = new_death/sum(fillnewDc)
 		, propD = ifelse(is.na(propD),0,propD)
-		, cnew_death = ceiling(fillnewDc + propD*distribute_death)
+		, cnew_death = round(fillnewDc + propD*distribute_death)
+		, death_adjust = propD*distribute_death
 	)
 	|> transmute(NULL
 		, date
@@ -53,6 +56,8 @@ olddat <- (dat
 		, cumulative_death = cumsum(cnew_death)
 		, new_cases = cnew_cases
 		, new_death = cnew_death
+#		, propD
+#		, D = sum(death_adjust)
 	)
 )
 
@@ -65,12 +70,12 @@ olddat2 <- (dat
 	|> mutate(NULL
 		, propI = new_cases/sum(fillnewIc)
 		, propI = ifelse(is.na(propI),0,propI)
-		, cnew_cases = ceiling(fillnewIc + propI*distribute_cases)
+		, cnew_cases = round(fillnewIc + propI*distribute_cases)
 		, propD = new_death/sum(fillnewDc)
 		, propD = ifelse(is.na(propD),0,propD)
-		, cnew_death = ceiling(fillnewDc + propD*distribute_death)
+		, cnew_death = round(fillnewDc + propD*distribute_death)
 	)
-	|> bind_rows(filter(dat,between(date, min(date)-1, as.Date("2026-07-02"))))
+	|> bind_rows(filter(dat,between(date, min(date), as.Date("2026-06-30"))))
 	|> arrange(date)
 	|> transmute(NULL
 		, date
@@ -83,6 +88,8 @@ olddat2 <- (dat
 	)
 	|> select(-c(cnew_cases,cnew_death))
 )
+
+print(olddat2,n=Inf)
 
 gg <- (ggplot(data=pivot_longer(dat2, -date, names_to = "type",values_to = "value"), aes(date,value))
 	+ geom_point(data=pivot_longer(olddat2, -date, names_to = "type",values_to = "value"), aes(date,value),color="green", size=1)
@@ -98,8 +105,10 @@ mergedat <- (dat
 	|> bind_rows(olddat)
 	|> arrange(date)
 	|> transmute(date
-		, newIc = new_cases
-		, newDc = new_death
+		, confirmed_cases = cumulative_cases
+		, confirmed_death = cumulative_death
+		, newIc = diff(c(NA,confirmed_cases))
+		, newDc = diff(c(NA,confirmed_death))
 	)
 )
 

@@ -10,11 +10,12 @@ time_steps <- 300
 firstdate <- as.Date("2026-02-01")
 trimstart <- as.Date("2026-06-15")
 trimstart <- as.Date("2026-05-15")
-trimend <- as.Date("2026-07-20")
+trimend <- as.Date("2026-07-26")
 #trimend <- as.Date("2026-07-06")
 
 ## make a macpan2 dataset for calibration
-dat <- (rdsRead("clean")
+#dat <- (rdsRead("clean")
+dat <- (rdsRead("correction")
 	|> select(date, newIc, newDc, cumIc = confirmed_cases, cumDc=confirmed_death)
 )
 
@@ -61,6 +62,8 @@ newspec <- mp_tmb_update(rdsRead("SEIRDB_prop_spec")
 #	, default = list(effS = 0.00065
 #	, default = list(effS = 0.001
 	, default = list(effS = 0.0015
+#	, default = list(effS = 0.0025
+#	, default = list(effS = 0.002
 		)
 )
 
