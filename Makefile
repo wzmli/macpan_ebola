@@ -23,7 +23,7 @@ ebola_2026/%: | ebola_2026 ;
 Ignore  += $(alldirs)
 
 ebola_2026: 
-	git clone https://github.com/wzmli/ebola_2026
+	ln ../$@ || git clone https://github.com/wzmli/ebola_2026
 
 ######################################################################
 
