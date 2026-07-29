@@ -160,7 +160,7 @@ impmakeR += pps_plots
 
 
 # base_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R SEIRDB_priors.R
-%_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds clean.rds
+%_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds correction.rds
 	$(pipeR)
 
 combo_reporting_pps.Rout: combo_reporting_pps.R low_SEIRDB_pps_plots.rds high_SEIRDB_pps_plots.rds clean.rds
