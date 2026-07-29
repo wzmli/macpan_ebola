@@ -16,7 +16,7 @@ fitdat <- (dat
 	|> filter(date > as.Date("2026-05-15"))
 #	|> filter(date < as.Date("2026-07-11"))
 	|> transmute(time = as.numeric(date - min(date))
-		, cinc = cumulative_cases 
+		, cinc = confirmed_cases
 		, date
 	)
 )
