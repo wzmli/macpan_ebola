@@ -64,7 +64,8 @@ newspec <- mp_tmb_update(rdsRead("SEIRDB_prop_spec")
 #	, default = list(effS = 0.001
 #	, default = list(effS = 0.0015
 #	, default = list(effS = 0.0025
-	, default = list(effS = 0.002
+#	, default = list(effS = 0.002
+	, default = list(effS = 0.02
 		)
 )
 

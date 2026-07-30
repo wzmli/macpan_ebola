@@ -11,7 +11,7 @@ firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
 fitdate <- as.Date("2026-07-26")
 # firstdate <- as.Date("2026-04-15")
-nudge <- 3
+nudge <- 1
 # nudge <- 6
 extra_nudge <- 0
 
