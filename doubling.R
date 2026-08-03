@@ -45,13 +45,14 @@ newdat2 <- (fitdat
 	)
 )
 
-print(tail(newdat2))
+print(newdat2,n=Inf)
 
 gg <- (ggplot(newdat2, aes(date))
 	+ geom_line(aes(y=dt))
 	+ geom_ribbon(aes(ymin=dt.lwr,ymax=dt.upr),alpha=0.2)
 	+ geom_pointrange(data=phydat,aes(x=date,y=med,ymin=lwr,ymax=upr))
-	+ xlim(c(as.Date("2026-06-01"),as.Date("2026-08-01")))
+	+ xlim(c(as.Date("2026-06-01"),as.Date("2026-08-03")))
+	+ ylim(c(0,35))
 	+ ylab("Doubling Time (days)")
 	+ xlab("Date")
 )
