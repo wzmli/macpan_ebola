@@ -11,6 +11,7 @@ firstdate <- as.Date("2026-02-01")
 trimstart <- as.Date("2026-06-15")
 trimstart <- as.Date("2026-05-15")
 trimend <- as.Date("2026-07-26")
+trimend <- as.Date("2026-08-01")
 # trimend <- as.Date("2026-07-16")
 #trimend <- as.Date("2026-07-06")
 
@@ -61,11 +62,10 @@ priors <- list(log_beta_I = get_prior(log)(prior_range[["beta_I"]])
 newspec <- mp_tmb_update(rdsRead("SEIRDB_prop_spec")
 #	, default = list(effS = 0.00055
 #	, default = list(effS = 0.00065
-#	, default = list(effS = 0.001
+#	, default = list(effS = 0.003
 #	, default = list(effS = 0.0015
-#	, default = list(effS = 0.0025
-#	, default = list(effS = 0.002
-	, default = list(effS = 0.002
+#   , default = list(effS = 0.0025
+	, default = list(effS = 0.0023
 		)
 )
 
