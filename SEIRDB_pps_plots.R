@@ -30,8 +30,8 @@ simdf <- (rdsRead("sims")
 )
 
 
-dat <- (rdsRead("correction")
-#dat <- (rdsRead("clean")
+#dat <- (rdsRead("correction")
+dat <- (rdsRead("clean")
 	|> select(date, newIc, newDc, cumIc = confirmed_cases, cumDc = confirmed_death)
 	|> pivot_longer(-date,names_to="matrix",values_to = "value")
 	|> mutate(report_type = matrix

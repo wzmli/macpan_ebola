@@ -93,6 +93,9 @@ complex_detsimplots.Rout: complex_detsimplots.R complex_detsims.rds clean.rds
 base_priors.Rout: SEIRDB_priors.R
 	$(pipeR)
 
+base2_priors.Rout: SEIRDB_priors2.R
+	$(pipeR)
+
 ll_priors.Rout: ll_priors.R
 	$(pipeR)
 
@@ -113,15 +116,16 @@ high_priors.Rout: high_priors.R
 
 impmakeR += SEIRDB_calibrate
 # base_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_priors.R
+# base2_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_priors.R
 # high_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R high_priors.R
 # low_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R low_priors.R
 # ll_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R
 # lh_SEIRDB_calibrate.Rout:
 # hl_SEIRDB_calibrate.Rout:
 # hh_SEIRDB_calibrate.Rout:
-%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda correction.rds %_priors.rda
-	$(pipeR)
-#%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda clean.rds %_priors.rda
+#%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda correction.rds %_priors.rda
+#	$(pipeR)
+%_SEIRDB_calibrate.Rout: SEIRDB_calibrate.R SEIRDB_prop_spec.rds SEIRDB_flows.rda clean.rds %_priors.rda
 	$(pipeR)
 
 impmakeR += SEIRDB_timevar_calibrate
@@ -139,7 +143,7 @@ impmakeR += pps
 	$(pipeR)
 
 impmakeR += pps_sims
-# base_SEIRDB_pps_sims.Rout: SEIRDB_pps_sims.R
+# base2_SEIRDB_pps_sims.Rout: SEIRDB_pps_sims.R
 # ll_SEIRDB_pps_sims.Rout: SEIRDB_pps_sims.R
 # lh_SEIRDB_pps_sims.Rout:
 # hl_SEIRDB_pps_sims.Rout:
@@ -158,8 +162,8 @@ impmakeR += pps_plots
 %_SEIRDB_pps_plots.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds correction.rds
 	$(pipeR)
 
-# base_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R SEIRDB_priors.R
-%_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds correction.rds
+# base2_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R SEIRDB_priors.R
+%_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds clean.rds
 	$(pipeR)
 
 combo_reporting_pps.Rout: combo_reporting_pps.R low_SEIRDB_pps_plots.rds high_SEIRDB_pps_plots.rds clean.rds
