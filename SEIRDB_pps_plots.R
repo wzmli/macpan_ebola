@@ -10,9 +10,9 @@ startGraphics(width=6,height=4)
 firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
 fitdate <- as.Date("2026-07-26")
-fitdate <- as.Date("2026-08-01")
+# fitdate <- as.Date("2026-08-01")
 # firstdate <- as.Date("2026-04-15")
-nudge <- 4
+nudge <- 3
 # nudge <- 6
 extra_nudge <- 0
 
@@ -21,7 +21,7 @@ extra_nudge <- 2
 }
 
 if(pipeStar() == "base"){
-extra_nudge <- 1
+extra_nudge <- 2
 }
 
 simdf <- (rdsRead("sims")
