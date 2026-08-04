@@ -120,6 +120,7 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 #	+ xlim(as.Date(c("2026-06-01","2026-07-31")))
 	+ xlim(as.Date(c("2026-05-15","2026-08-03")))
 	+ xlim(as.Date(c("2026-05-15","2026-08-15")))
+	+ ylim(c(0,140))
 	+ theme(legend.position="bottom")
 )
 
