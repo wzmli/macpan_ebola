@@ -135,6 +135,7 @@ impmakeR += SEIRDB_timevar_calibrate
 
 impmakeR += pps
 # base_SEIRDB_pps.Rout: SEIRDB_pps.R
+# base2_SEIRDB_pps.Rout: SEIRDB_pps.R
 # ll_SEIRDB_pps.Rout: 
 # lh_SEIRDB_pps.Rout:
 # hl_SEIRDB_pps.Rout:
@@ -162,9 +163,12 @@ impmakeR += pps_plots
 %_SEIRDB_pps_plots.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds correction.rds
 	$(pipeR)
 
+# base_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R SEIRDB_priors.R
 # base2_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R SEIRDB_priors.R
 %_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds clean.rds
 	$(pipeR)
+#%_SEIRDB_pps_plots.old.Rout: SEIRDB_pps_plots.R %_SEIRDB_pps_sims.rds correction.rds
+#	$(pipeR)
 
 combo_reporting_pps.Rout: combo_reporting_pps.R low_SEIRDB_pps_plots.rds high_SEIRDB_pps_plots.rds clean.rds
 	$(pipeR)
@@ -176,6 +180,10 @@ compare.Rout: compare.R combo_pps.rds compare.csv
 	$(pipeR)
 
 ######################################################################
+
+simple.Rout: simple.R
+	$(pipeR)
+
 
 Makefile: makestuff/00.stamp
 makestuff/%.stamp: | makestuff

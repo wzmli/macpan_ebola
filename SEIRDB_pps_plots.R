@@ -3,6 +3,7 @@ library(bbmle)
 library(tidyverse)
 library(ggplot2);theme_set(theme_bw())
 library(zoo)
+library(ggh4x)
 library(shellpipes)
 startGraphics(width=6,height=4)
 
@@ -10,11 +11,12 @@ startGraphics(width=6,height=4)
 firstdate <- as.Date("2026-03-01")
 firstdate <- as.Date("2026-02-01")
 fitdate <- as.Date("2026-07-20")
-# fitdate <- as.Date("2026-08-01")
+#fitdate <- as.Date("2026-07-26")
+# fitdate <- as.Date("2026-08-04")
 # firstdate <- as.Date("2026-04-15")
-nudge <- 3
+nudge <- 4
 # nudge <- 6
-extra_nudge <- 0
+extra_nudge <- 2
 
 if(pipeStar() == "low"){
 extra_nudge <- 2
@@ -44,7 +46,7 @@ dat <- (rdsRead("clean")
 
 print(dat,n=Inf)
 
-simdf$value <- pmax(rnorm(mean=simdf$value,sd=15,n=length(simdf$value)),0)
+simdf$value <- pmax(rnorm(mean=simdf$value,sd=10,n=length(simdf$value)),0)
 
 print(head(simdf))
 
@@ -120,8 +122,14 @@ gg3 <- (ggplot(simdf3, aes(date,med))
 #	+ xlim(as.Date(c("2026-06-01","2026-07-31")))
 	+ xlim(as.Date(c("2026-05-15","2026-08-03")))
 	+ xlim(as.Date(c("2026-05-15","2026-08-15")))
-	+ ylim(c(0,140))
 	+ theme(legend.position="bottom")
+	+  facetted_pos_scales(y = list(
+      	scale_y_continuous(limits = c(0, 5500))# facet 1
+			, scale_y_continuous(limits = c(0, 2700))  # facet 2
+      	, scale_y_continuous(limits = c(0, 90))  # facet 3
+      	, scale_y_continuous(limits = c(0, 60))  # facet 4
+    )
+	 )
 )
 
 print(gg3)
